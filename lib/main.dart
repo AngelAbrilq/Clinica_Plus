@@ -9,6 +9,7 @@ import 'config/constants/app_constants.dart';
 import 'config/env.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
+import 'data/local/app_preferences.dart';
 import 'data/local/secure_session_storage.dart';
 import 'data/repositories/supabase_admin_repository.dart';
 import 'data/repositories/supabase_auth_repository.dart';
@@ -29,23 +30,40 @@ Future<void> main() async {
     ),
   );
 
+  final preferences = AppPreferences();
+  final isFirstLaunch = !await preferences.hasSeenIntro();
   final authProvider = AuthProvider(
     SupabaseAuthRepository(Supabase.instance.client),
   );
-  runApp(ClinicaPlusApp(authProvider: authProvider));
+  runApp(
+    ClinicaPlusApp(
+      authProvider: authProvider,
+      preferences: preferences,
+      isFirstLaunch: isFirstLaunch,
+    ),
+  );
 }
 
 class ClinicaPlusApp extends StatefulWidget {
-  const ClinicaPlusApp({super.key, required this.authProvider});
+  const ClinicaPlusApp({
+    super.key,
+    required this.authProvider,
+    required this.preferences,
+    required this.isFirstLaunch,
+  });
 
   final AuthProvider authProvider;
+  final AppPreferences preferences;
+  final bool isFirstLaunch;
 
   @override
   State<ClinicaPlusApp> createState() => _ClinicaPlusAppState();
 }
 
 class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
-  final AppStartupNotifier _startup = AppStartupNotifier();
+  late final AppStartupNotifier _startup = AppStartupNotifier(
+    isFirstLaunch: widget.isFirstLaunch,
+  );
 
   // Se crea una sola vez para no perder el estado de navegación.
   late final GoRouter _router = buildAppRouter(
@@ -65,6 +83,7 @@ class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
     providers: [
       ChangeNotifierProvider<AuthProvider>.value(value: widget.authProvider),
       ChangeNotifierProvider<AppStartupNotifier>.value(value: _startup),
+      Provider<AppPreferences>.value(value: widget.preferences),
       // Lazy: solo se crea cuando un admin abre el módulo.
       ChangeNotifierProvider<AdminProvider>(
         create: (_) =>

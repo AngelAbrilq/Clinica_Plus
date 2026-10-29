@@ -1,4 +1,5 @@
 import 'package:clinica_plus/providers/app_startup_notifier.dart';
+import 'package:clinica_plus/screens/shared/widgets/ecg_painter.dart';
 import 'package:clinica_plus/widgets/animations/fade_slide_in.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -74,6 +75,38 @@ void main() {
 
       expect(notifier.introCompleted, isTrue);
       expect(notifications, 1);
+    });
+  });
+
+  group('AppStartupNotifier.shouldUseReveal', () {
+    test('no revela antes de terminar la intro', () {
+      expect(AppStartupNotifier().shouldUseReveal(), isFalse);
+    });
+
+    test('revela solo dentro de la ventana de la primera transición', () {
+      // Arrange: reloj controlado para no depender del tiempo real.
+      var now = DateTime(2026, 10, 29, 12);
+      final notifier = AppStartupNotifier(clock: () => now)..completeIntro();
+      // Act + Assert
+      expect(notifier.shouldUseReveal(), isTrue);
+      now = now.add(const Duration(milliseconds: 1000));
+      expect(notifier.shouldUseReveal(), isTrue);
+      now = now.add(AppStartupNotifier.revealWindow);
+      expect(notifier.shouldUseReveal(), isFalse);
+    });
+  });
+
+  group('EcgPath', () {
+    test('el segundo pico cae en el centro (donde nace el logo)', () {
+      expect(EcgPath.peakXs.last, 0.5);
+    });
+
+    test('las fracciones de los picos están ordenadas y dentro de 0..1', () {
+      final fractions = EcgPath.peakFractions(const Size(360, 96));
+      expect(fractions, hasLength(2));
+      expect(fractions.first, greaterThan(0));
+      expect(fractions.last, lessThan(1));
+      expect(fractions.first, lessThan(fractions.last));
     });
   });
 }
