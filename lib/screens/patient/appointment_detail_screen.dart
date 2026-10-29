@@ -24,7 +24,8 @@ class AppointmentDetailScreen extends StatefulWidget {
   final bool isNewlyBooked;
 
   @override
-  State<AppointmentDetailScreen> createState() => _AppointmentDetailScreenState();
+  State<AppointmentDetailScreen> createState() =>
+      _AppointmentDetailScreenState();
 }
 
 class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
@@ -77,8 +78,10 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
     reasonController.dispose();
     if (confirmed != true || !mounted) return;
 
-    final cancelled =
-        await context.read<AppointmentProvider>().cancel(appointment, reason: reason);
+    final cancelled = await context.read<AppointmentProvider>().cancel(
+      appointment,
+      reason: reason,
+    );
     if (cancelled && mounted) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Cita cancelada')));
@@ -104,7 +107,10 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
               children: [
                 if (widget.isNewlyBooked) const _SuccessBanner(),
                 if (provider.errorMessage != null)
-                  ErrorBanner(message: provider.errorMessage!, onDismiss: provider.clearError),
+                  ErrorBanner(
+                    message: provider.errorMessage!,
+                    onDismiss: provider.clearError,
+                  ),
                 FadeSlideIn(
                   child: Card(
                     child: Padding(
@@ -114,12 +120,18 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                         children: [
                           Row(
                             children: [
-                              Icon(SpecialtyIcons.forName(appointment.specialtyName),
-                                  color: theme.colorScheme.primary),
+                              Icon(
+                                SpecialtyIcons.forName(
+                                  appointment.specialtyName,
+                                ),
+                                color: theme.colorScheme.primary,
+                              ),
                               const SizedBox(width: 10),
                               Expanded(
-                                child: Text(appointment.specialtyName,
-                                    style: theme.textTheme.titleLarge),
+                                child: Text(
+                                  appointment.specialtyName,
+                                  style: theme.textTheme.titleLarge,
+                                ),
                               ),
                               AppointmentStatusChip(status: appointment.status),
                             ],
@@ -129,7 +141,9 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                             _InfoRow(
                               icon: Icons.event_outlined,
                               label: 'Fecha',
-                              value: DateFormatters.longDate(appointment.startsAt!),
+                              value: DateFormatters.longDate(
+                                appointment.startsAt!,
+                              ),
                             ),
                             _InfoRow(
                               icon: Icons.schedule_rounded,
@@ -177,7 +191,9 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                 const SizedBox(height: 12),
                 if (provider.canCancel(appointment))
                   OutlinedButton.icon(
-                    onPressed: provider.isSaving ? null : () => _cancel(appointment),
+                    onPressed: provider.isSaving
+                        ? null
+                        : () => _cancel(appointment),
                     icon: const Icon(Icons.event_busy_outlined),
                     label: const Text('Cancelar cita'),
                     style: OutlinedButton.styleFrom(
@@ -243,36 +259,46 @@ class _CheckInQrCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text('Código de check-in', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 4),
-              const Text('Muéstralo en recepción al llegar', textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              // Fondo blanco siempre: los lectores QR fallan con fondos oscuros.
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: QrImageView(
-                  data: code,
-                  size: 200,
-                  backgroundColor: Colors.white,
-                  semanticsLabel: 'Código QR de check-in',
-                ),
-              ),
-            ],
+    child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Text(
+            'Código de check-in',
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-        ),
-      );
+          const SizedBox(height: 4),
+          const Text(
+            'Muéstralo en recepción al llegar',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          // Fondo blanco siempre: los lectores QR fallan con fondos oscuros.
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: QrImageView(
+              data: code,
+              size: 200,
+              backgroundColor: Colors.white,
+              semanticsLabel: 'Código QR de check-in',
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.icon, required this.label, required this.value});
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
   final IconData icon;
   final String label;

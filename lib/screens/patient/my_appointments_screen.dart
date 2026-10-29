@@ -51,10 +51,15 @@ class _MyAppointmentsScreenState extends State<MyAppointmentsScreen> {
             if (provider.errorMessage != null)
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                child: ErrorBanner(message: provider.errorMessage!, onDismiss: provider.clearError),
+                child: ErrorBanner(
+                  message: provider.errorMessage!,
+                  onDismiss: provider.clearError,
+                ),
               ),
             Expanded(
-              child: provider.isLoadingAppointments && provider.appointments.isEmpty
+              child:
+                  provider.isLoadingAppointments &&
+                      provider.appointments.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : TabBarView(
                       children: [
@@ -91,31 +96,36 @@ class _AppointmentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
-        onRefresh: onRefresh,
-        child: appointments.isEmpty
-            ? ListView(
-                padding: const EdgeInsets.all(40),
-                children: [
-                  Icon(Icons.event_available_outlined,
-                      size: 56, color: Theme.of(context).colorScheme.outline),
-                  const SizedBox(height: 12),
-                  Text(emptyMessage, textAlign: TextAlign.center),
-                ],
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                itemCount: appointments.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 10),
-                itemBuilder: (_, index) => FadeSlideIn(
-                  key: ValueKey(appointments[index].id),
-                  delay: FadeSlideIn.staggerDelay(index),
-                  child: AppointmentCard(
-                    appointment: appointments[index],
-                    onTap: () => context.push(
-                      AppRoutes.patientAppointmentDetailPath(appointments[index].id),
-                    ),
+    onRefresh: onRefresh,
+    child: appointments.isEmpty
+        ? ListView(
+            padding: const EdgeInsets.all(40),
+            children: [
+              Icon(
+                Icons.event_available_outlined,
+                size: 56,
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              const SizedBox(height: 12),
+              Text(emptyMessage, textAlign: TextAlign.center),
+            ],
+          )
+        : ListView.separated(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+            itemCount: appointments.length,
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemBuilder: (_, index) => FadeSlideIn(
+              key: ValueKey(appointments[index].id),
+              delay: FadeSlideIn.staggerDelay(index),
+              child: AppointmentCard(
+                appointment: appointments[index],
+                onTap: () => context.push(
+                  AppRoutes.patientAppointmentDetailPath(
+                    appointments[index].id,
                   ),
                 ),
               ),
-      );
+            ),
+          ),
+  );
 }

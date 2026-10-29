@@ -60,7 +60,9 @@ GoRouter buildAppRouter({
       (_) => const MyAppointmentsScreen(),
     ),
     _animatedRoute(startup, AppRoutes.patientAppointmentDetail, (state) {
-      final appointmentId = int.tryParse(state.pathParameters['appointmentId'] ?? '');
+      final appointmentId = int.tryParse(
+        state.pathParameters['appointmentId'] ?? '',
+      );
       return appointmentId == null
           ? const MyAppointmentsScreen()
           : AppointmentDetailScreen(

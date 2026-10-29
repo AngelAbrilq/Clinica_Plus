@@ -34,7 +34,8 @@ class SupabaseAdminRepository implements AdminRepository {
   Future<List<Site>> fetchSites() => CatalogQueries.fetchSites(_client);
 
   @override
-  Future<List<Specialty>> fetchSpecialties() => CatalogQueries.fetchSpecialties(_client);
+  Future<List<Specialty>> fetchSpecialties() =>
+      CatalogQueries.fetchSpecialties(_client);
 
   @override
   Future<void> assignRole({required String userId, required UserRole role}) =>

@@ -14,8 +14,8 @@ class AvailableSlot {
   bool get isMorning => startsAt.hour < 12;
 
   factory AvailableSlot.fromJson(Map<String, dynamic> json) => AvailableSlot(
-        startsAt: DateTime.parse(json['starts_at'] as String).toLocal(),
-        endsAt: DateTime.parse(json['ends_at'] as String).toLocal(),
-        availableDoctors: (json['available_doctors'] as num).toInt(),
-      );
+    startsAt: DateTime.parse(json['starts_at'] as String).toLocal(),
+    endsAt: DateTime.parse(json['ends_at'] as String).toLocal(),
+    availableDoctors: (json['available_doctors'] as num).toInt(),
+  );
 }

@@ -44,7 +44,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
       final provider = context.read<AppointmentProvider>()..clearSlots();
       await provider.loadCatalogs();
       // Con una sola sede, se preselecciona.
-      if (mounted && provider.sites.length == 1) setState(() => _site = provider.sites.first);
+      if (mounted && provider.sites.length == 1)
+        setState(() => _site = provider.sites.first);
     });
   }
 
@@ -81,7 +82,10 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _SummaryRow(icon: Icons.local_hospital_outlined, text: specialty.name),
+            _SummaryRow(
+              icon: Icons.local_hospital_outlined,
+              text: specialty.name,
+            ),
             _SummaryRow(icon: Icons.place_outlined, text: site.name),
             _SummaryRow(
               icon: Icons.event_outlined,
@@ -125,7 +129,9 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
       _reloadSlots();
       return;
     }
-    context.pushReplacement(AppRoutes.patientAppointmentDetailPath(appointmentId, isNew: true));
+    context.pushReplacement(
+      AppRoutes.patientAppointmentDetailPath(appointmentId, isNew: true),
+    );
   }
 
   @override
@@ -145,12 +151,14 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                     'Elige especialidad, sede, fecha y hora',
                     key: const ValueKey('hint'),
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   )
                 : LoadingButton(
                     key: const ValueKey('confirm'),
-                    label: 'Confirmar · ${DateFormatters.time(_slot!.startsAt)}',
+                    label:
+                        'Confirmar · ${DateFormatters.time(_slot!.startsAt)}',
                     isLoading: provider.isSaving,
                     onPressed: _confirm,
                   ),
@@ -164,15 +172,24 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
               children: [
                 const _EmergencyNotice(),
                 if (provider.errorMessage != null)
-                  ErrorBanner(message: provider.errorMessage!, onDismiss: provider.clearError),
-                const _SectionTitle(number: 1, title: '¿Qué especialidad necesitas?'),
+                  ErrorBanner(
+                    message: provider.errorMessage!,
+                    onDismiss: provider.clearError,
+                  ),
+                const _SectionTitle(
+                  number: 1,
+                  title: '¿Qué especialidad necesitas?',
+                ),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
                     for (final specialty in provider.specialties)
                       ChoiceChip(
-                        avatar: Icon(SpecialtyIcons.forName(specialty.name), size: 18),
+                        avatar: Icon(
+                          SpecialtyIcons.forName(specialty.name),
+                          size: 18,
+                        ),
                         label: Text(specialty.name),
                         selected: _specialty?.id == specialty.id,
                         onSelected: (_) {
@@ -199,7 +216,9 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                       onSelectionChanged: (selection) {
                         if (selection.isEmpty) return;
                         setState(() {
-                          _site = provider.sites.firstWhere((site) => site.id == selection.first);
+                          _site = provider.sites.firstWhere(
+                            (site) => site.id == selection.first,
+                          );
                         });
                         _reloadSlots();
                       },
@@ -238,7 +257,10 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                   ),
                 ],
                 if (_slot != null) ...[
-                  const _SectionTitle(number: 5, title: '¿Qué sientes? (opcional)'),
+                  const _SectionTitle(
+                    number: 5,
+                    title: '¿Qué sientes? (opcional)',
+                  ),
                   FadeSlideIn(
                     child: TextField(
                       controller: _symptomsController,
@@ -247,7 +269,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                       maxLines: 4,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
-                        hintText: 'Ej: fiebre y dolor de garganta desde hace 2 días',
+                        hintText:
+                            'Ej: fiebre y dolor de garganta desde hace 2 días',
                       ),
                     ),
                   ),
@@ -308,7 +331,10 @@ class _SectionTitle extends StatelessWidget {
             backgroundColor: theme.colorScheme.primary,
             child: Text(
               '$number',
-              style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 12),
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary,
+                fontSize: 12,
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -359,7 +385,11 @@ class _DateCard extends StatelessWidget {
               ),
               Text(
                 '${date.day}',
-                style: TextStyle(color: foreground, fontSize: 22, fontWeight: FontWeight.w800),
+                style: TextStyle(
+                  color: foreground,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               Text(
                 DateFormatters.monthShort(date),
@@ -399,7 +429,9 @@ class _SlotsSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Text(
           'No hay horarios disponibles este día. Prueba con otra fecha.',
-          style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       );
     }
@@ -408,7 +440,8 @@ class _SlotsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (morning.isNotEmpty) _buildGroup(context, 'Mañana', Icons.wb_sunny_outlined, morning),
+        if (morning.isNotEmpty)
+          _buildGroup(context, 'Mañana', Icons.wb_sunny_outlined, morning),
         if (afternoon.isNotEmpty)
           _buildGroup(context, 'Tarde', Icons.wb_twilight_outlined, afternoon),
       ],
@@ -420,39 +453,42 @@ class _SlotsSection extends StatelessWidget {
     String label,
     IconData icon,
     List<AvailableSlot> group,
-  ) =>
-      Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  ) => Padding(
+    padding: const EdgeInsets.only(bottom: 12),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
           children: [
-            Row(
-              children: [
-                Icon(icon, size: 16),
-                const SizedBox(width: 6),
-                Text(label, style: Theme.of(context).textTheme.labelLarge),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final (index, slot) in group.indexed)
-                  FadeSlideIn(
-                    key: ValueKey(slot.startsAt),
-                    delay: FadeSlideIn.staggerDelay(index, stepMs: 30, maxSteps: 12),
-                    child: ChoiceChip(
-                      label: Text(DateFormatters.time(slot.startsAt)),
-                      selected: selected?.startsAt == slot.startsAt,
-                      onSelected: (_) => onSelected(slot),
-                    ),
-                  ),
-              ],
-            ),
+            Icon(icon, size: 16),
+            const SizedBox(width: 6),
+            Text(label, style: Theme.of(context).textTheme.labelLarge),
           ],
         ),
-      );
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final (index, slot) in group.indexed)
+              FadeSlideIn(
+                key: ValueKey(slot.startsAt),
+                delay: FadeSlideIn.staggerDelay(
+                  index,
+                  stepMs: 30,
+                  maxSteps: 12,
+                ),
+                child: ChoiceChip(
+                  label: Text(DateFormatters.time(slot.startsAt)),
+                  selected: selected?.startsAt == slot.startsAt,
+                  onSelected: (_) => onSelected(slot),
+                ),
+              ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
 
 class _SummaryRow extends StatelessWidget {
@@ -463,13 +499,13 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          children: [
-            Icon(icon, size: 18),
-            const SizedBox(width: 10),
-            Expanded(child: Text(text)),
-          ],
-        ),
-      );
+    padding: const EdgeInsets.symmetric(vertical: 4),
+    child: Row(
+      children: [
+        Icon(icon, size: 18),
+        const SizedBox(width: 10),
+        Expanded(child: Text(text)),
+      ],
+    ),
+  );
 }

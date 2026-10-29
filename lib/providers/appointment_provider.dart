@@ -10,7 +10,7 @@ import '../utils/app_exception.dart';
 /// Estado del agendamiento y de las citas del paciente.
 class AppointmentProvider extends ChangeNotifier {
   AppointmentProvider(this._repository, {DateTime Function()? clock})
-      : _clock = clock ?? DateTime.now;
+    : _clock = clock ?? DateTime.now;
 
   final AppointmentRepository _repository;
   final DateTime Function() _clock;
@@ -59,7 +59,8 @@ class AppointmentProvider extends ChangeNotifier {
     return null;
   }
 
-  bool canCancel(PatientAppointment appointment) => appointment.canCancel(_clock());
+  bool canCancel(PatientAppointment appointment) =>
+      appointment.canCancel(_clock());
 
   Future<void> loadCatalogs() async {
     if (_specialties.isNotEmpty && _sites.isNotEmpty) return;
@@ -137,22 +138,24 @@ class AppointmentProvider extends ChangeNotifier {
     required int siteId,
     required AvailableSlot slot,
     String? symptoms,
-  }) =>
-      _save(() async {
-        final trimmed = symptoms?.trim();
-        final appointmentId = await _repository.bookAppointment(
-          specialtyId: specialtyId,
-          siteId: siteId,
-          startsAt: slot.startsAt,
-          symptoms: (trimmed == null || trimmed.isEmpty) ? null : trimmed,
-        );
-        _appointments = await _repository.fetchMyAppointments();
-        return appointmentId;
-      });
+  }) => _save(() async {
+    final trimmed = symptoms?.trim();
+    final appointmentId = await _repository.bookAppointment(
+      specialtyId: specialtyId,
+      siteId: siteId,
+      startsAt: slot.startsAt,
+      symptoms: (trimmed == null || trimmed.isEmpty) ? null : trimmed,
+    );
+    _appointments = await _repository.fetchMyAppointments();
+    return appointmentId;
+  });
 
   Future<bool> cancel(PatientAppointment appointment, {String? reason}) async {
     final result = await _save(() async {
-      await _repository.cancelAppointment(appointmentId: appointment.id, reason: reason);
+      await _repository.cancelAppointment(
+        appointmentId: appointment.id,
+        reason: reason,
+      );
       _appointments = await _repository.fetchMyAppointments();
       return true;
     });

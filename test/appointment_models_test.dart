@@ -26,11 +26,17 @@ void main() {
     });
 
     test('el QR de check-in incluye el token de confirmación', () {
-      expect(PatientAppointment.fromJson(json).checkInCode, 'clinicaplus:checkin:abc-123');
+      expect(
+        PatientAppointment.fromJson(json).checkInCode,
+        'clinicaplus:checkin:abc-123',
+      );
     });
 
     test('una cita cancelada no se puede volver a cancelar', () {
-      final cancelled = PatientAppointment.fromJson({...json, 'status': 'cancelled'});
+      final cancelled = PatientAppointment.fromJson({
+        ...json,
+        'status': 'cancelled',
+      });
       expect(cancelled.canCancel(DateTime.utc(2026, 11, 1)), isFalse);
     });
   });

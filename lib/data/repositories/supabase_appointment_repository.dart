@@ -18,7 +18,8 @@ class SupabaseAppointmentRepository implements AppointmentRepository {
   static final DateFormat _sqlDate = DateFormat('yyyy-MM-dd');
 
   @override
-  Future<List<Specialty>> fetchSpecialties() => CatalogQueries.fetchSpecialties(_client);
+  Future<List<Specialty>> fetchSpecialties() =>
+      CatalogQueries.fetchSpecialties(_client);
 
   @override
   Future<List<Site>> fetchSites() => CatalogQueries.fetchSites(_client);
@@ -28,21 +29,20 @@ class SupabaseAppointmentRepository implements AppointmentRepository {
     required int specialtyId,
     required int siteId,
     required DateTime date,
-  }) =>
-      SupabaseErrorMapper.guard(() async {
-        final rows = await _client.rpc<List<dynamic>>(
-          'get_available_slots',
-          params: {
-            'p_specialty_id': specialtyId,
-            'p_site_id': siteId,
-            'p_date': _sqlDate.format(date),
-          },
-        );
-        return rows
-            .cast<Map<String, dynamic>>()
-            .map(AvailableSlot.fromJson)
-            .toList();
-      });
+  }) => SupabaseErrorMapper.guard(() async {
+    final rows = await _client.rpc<List<dynamic>>(
+      'get_available_slots',
+      params: {
+        'p_specialty_id': specialtyId,
+        'p_site_id': siteId,
+        'p_date': _sqlDate.format(date),
+      },
+    );
+    return rows
+        .cast<Map<String, dynamic>>()
+        .map(AvailableSlot.fromJson)
+        .toList();
+  });
 
   @override
   Future<int> bookAppointment({
@@ -50,20 +50,19 @@ class SupabaseAppointmentRepository implements AppointmentRepository {
     required int siteId,
     required DateTime startsAt,
     String? symptoms,
-  }) =>
-      SupabaseErrorMapper.guard(() async {
-        final appointmentId = await _client.rpc<num>(
-          'book_appointment',
-          params: {
-            'p_specialty_id': specialtyId,
-            'p_site_id': siteId,
-            // En UTC: el servidor compara el instante exacto con el slot.
-            'p_starts_at': startsAt.toUtc().toIso8601String(),
-            'p_symptoms': symptoms,
-          },
-        );
-        return appointmentId.toInt();
-      });
+  }) => SupabaseErrorMapper.guard(() async {
+    final appointmentId = await _client.rpc<num>(
+      'book_appointment',
+      params: {
+        'p_specialty_id': specialtyId,
+        'p_site_id': siteId,
+        // En UTC: el servidor compara el instante exacto con el slot.
+        'p_starts_at': startsAt.toUtc().toIso8601String(),
+        'p_symptoms': symptoms,
+      },
+    );
+    return appointmentId.toInt();
+  });
 
   @override
   Future<List<PatientAppointment>> fetchMyAppointments() =>
@@ -76,11 +75,13 @@ class SupabaseAppointmentRepository implements AppointmentRepository {
       });
 
   @override
-  Future<void> cancelAppointment({required int appointmentId, String? reason}) =>
-      SupabaseErrorMapper.guard(
-        () => _client.rpc<void>(
-          'cancel_appointment',
-          params: {'p_appointment_id': appointmentId, 'p_reason': reason},
-        ),
-      );
+  Future<void> cancelAppointment({
+    required int appointmentId,
+    String? reason,
+  }) => SupabaseErrorMapper.guard(
+    () => _client.rpc<void>(
+      'cancel_appointment',
+      params: {'p_appointment_id': appointmentId, 'p_reason': reason},
+    ),
+  );
 }

@@ -7,7 +7,11 @@ import '../../../widgets/appointment_status_chip.dart';
 
 /// Tarjeta de cita con bloque de fecha a la izquierda.
 class AppointmentCard extends StatelessWidget {
-  const AppointmentCard({super.key, required this.appointment, required this.onTap});
+  const AppointmentCard({
+    super.key,
+    required this.appointment,
+    required this.onTap,
+  });
 
   final PatientAppointment appointment;
   final VoidCallback onTap;
@@ -44,8 +48,12 @@ class AppointmentCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      startsAt == null ? '' : DateFormatters.monthShort(startsAt).toUpperCase(),
-                      style: theme.textTheme.labelSmall?.copyWith(color: colors.onPrimaryContainer),
+                      startsAt == null
+                          ? ''
+                          : DateFormatters.monthShort(startsAt).toUpperCase(),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colors.onPrimaryContainer,
+                      ),
                     ),
                   ],
                 ),
@@ -57,8 +65,11 @@ class AppointmentCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(SpecialtyIcons.forName(appointment.specialtyName),
-                            size: 18, color: colors.primary),
+                        Icon(
+                          SpecialtyIcons.forName(appointment.specialtyName),
+                          size: 18,
+                          color: colors.primary,
+                        ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
@@ -78,7 +89,9 @@ class AppointmentCard extends StatelessWidget {
                     ),
                     Text(
                       '${appointment.doctorName} · ${appointment.siteName}',
-                      style: theme.textTheme.bodySmall?.copyWith(color: colors.onSurfaceVariant),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
