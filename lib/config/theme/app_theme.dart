@@ -211,6 +211,26 @@ abstract final class AppTheme {
         labelStyle: textTheme.labelLarge,
       ),
       listTileTheme: ListTileThemeData(iconColor: scheme.onSurfaceVariant),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: scheme.surfaceContainerLowest,
+        indicatorColor: scheme.primaryContainer,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        height: 68,
+        labelTextStyle: WidgetStatePropertyAll(textTheme.labelMedium),
+      ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: scheme.surfaceContainerLowest,
+        indicatorColor: scheme.primaryContainer,
+        selectedIconTheme: IconThemeData(color: scheme.onPrimaryContainer),
+        unselectedIconTheme: IconThemeData(color: scheme.onSurfaceVariant),
+        selectedLabelTextStyle: textTheme.labelLarge?.copyWith(
+          color: scheme.onSurface,
+        ),
+        unselectedLabelTextStyle: textTheme.labelLarge?.copyWith(
+          color: scheme.onSurfaceVariant,
+        ),
+      ),
     );
   }
 }

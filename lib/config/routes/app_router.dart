@@ -18,6 +18,7 @@ import '../../screens/patient/patient_home_screen.dart';
 import '../../screens/receptionist/receptionist_home_screen.dart';
 import '../../screens/shared/splash_screen.dart';
 import '../../widgets/animations/circular_reveal_clipper.dart';
+import '../../widgets/shell/role_shell.dart';
 import 'app_routes.dart';
 
 /// Construye el router con guards de intro, sesión y rol.
@@ -49,54 +50,75 @@ GoRouter buildAppRouter({
       AppRoutes.pendingApproval,
       (_) => const PendingApprovalScreen(),
     ),
-    _animatedRoute(
-      startup,
-      AppRoutes.patientBook,
-      (_) => const BookAppointmentScreen(),
+    // Pantallas de cada rol dentro del marco de navegación adaptable.
+    // La barra/menú permanece fija; solo cambia el contenido.
+    ShellRoute(
+      // El marco también entra con el revelado circular tras el splash;
+      // después aparece sin transición (el contenido interno ya anima).
+      pageBuilder: (context, state, child) {
+        final role = auth.profile?.role;
+        final shell = role == null
+            ? child
+            : RoleShell(role: role, location: state.uri.path, child: child);
+        return startup.shouldUseReveal()
+            ? _circularRevealPage(state, shell)
+            : NoTransitionPage<void>(key: state.pageKey, child: shell);
+      },
+      routes: [
+        _animatedRoute(
+          startup,
+          AppRoutes.patientBook,
+          (_) => const BookAppointmentScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.patientAppointments,
+          (_) => const MyAppointmentsScreen(),
+        ),
+        _animatedRoute(startup, AppRoutes.patientAppointmentDetail, (state) {
+          final appointmentId = int.tryParse(
+            state.pathParameters['appointmentId'] ?? '',
+          );
+          return appointmentId == null
+              ? const MyAppointmentsScreen()
+              : AppointmentDetailScreen(
+                  appointmentId: appointmentId,
+                  isNewlyBooked: state.uri.queryParameters['new'] == '1',
+                );
+        }),
+        _animatedRoute(
+          startup,
+          AppRoutes.patientHome,
+          (_) => const PatientHomeScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.doctorHome,
+          (_) => const DoctorHomeScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.receptionHome,
+          (_) => const ReceptionistHomeScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.adminHome,
+          (_) => const AdminHomeScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.adminStaff,
+          (_) => const StaffScreen(),
+        ),
+        _animatedRoute(startup, AppRoutes.adminDoctorSchedules, (state) {
+          final doctorId = int.tryParse(state.pathParameters['doctorId'] ?? '');
+          return doctorId == null
+              ? const StaffScreen()
+              : DoctorSchedulesScreen(doctorId: doctorId);
+        }),
+      ],
     ),
-    _animatedRoute(
-      startup,
-      AppRoutes.patientAppointments,
-      (_) => const MyAppointmentsScreen(),
-    ),
-    _animatedRoute(startup, AppRoutes.patientAppointmentDetail, (state) {
-      final appointmentId = int.tryParse(
-        state.pathParameters['appointmentId'] ?? '',
-      );
-      return appointmentId == null
-          ? const MyAppointmentsScreen()
-          : AppointmentDetailScreen(
-              appointmentId: appointmentId,
-              isNewlyBooked: state.uri.queryParameters['new'] == '1',
-            );
-    }),
-    _animatedRoute(
-      startup,
-      AppRoutes.patientHome,
-      (_) => const PatientHomeScreen(),
-    ),
-    _animatedRoute(
-      startup,
-      AppRoutes.doctorHome,
-      (_) => const DoctorHomeScreen(),
-    ),
-    _animatedRoute(
-      startup,
-      AppRoutes.receptionHome,
-      (_) => const ReceptionistHomeScreen(),
-    ),
-    _animatedRoute(
-      startup,
-      AppRoutes.adminHome,
-      (_) => const AdminHomeScreen(),
-    ),
-    _animatedRoute(startup, AppRoutes.adminStaff, (_) => const StaffScreen()),
-    _animatedRoute(startup, AppRoutes.adminDoctorSchedules, (state) {
-      final doctorId = int.tryParse(state.pathParameters['doctorId'] ?? '');
-      return doctorId == null
-          ? const StaffScreen()
-          : DoctorSchedulesScreen(doctorId: doctorId);
-    }),
   ],
 );
 
