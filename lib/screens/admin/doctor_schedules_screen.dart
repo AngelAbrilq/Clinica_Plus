@@ -94,7 +94,7 @@ class _DoctorSchedulesScreenState extends State<DoctorSchedulesScreen> {
                 ),
                 title: Text(member.displayName),
                 subtitle: Text(
-                  '${doctor.specialtyName} · RM ${doctor.licenseNumber}',
+                  '${doctor.specialtyName}, registro ${doctor.licenseNumber}',
                 ),
               ),
             ),

@@ -158,7 +158,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                 : LoadingButton(
                     key: const ValueKey('confirm'),
                     label:
-                        'Confirmar · ${DateFormatters.time(_slot!.startsAt)}',
+                        'Confirmar cita de las ${DateFormatters.time(_slot!.startsAt)}',
                     isLoading: provider.isSaving,
                     onPressed: _confirm,
                   ),

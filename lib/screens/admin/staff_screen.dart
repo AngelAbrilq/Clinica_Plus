@@ -140,7 +140,7 @@ class _StaffTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final doctor = member.doctor;
     final subtitle = member.isActiveDoctor && doctor != null
-        ? '${doctor.specialtyName} · RM ${doctor.licenseNumber}'
+        ? '${doctor.specialtyName}, registro ${doctor.licenseNumber}'
         : member.profile.email;
     final trailing = switch (member) {
       _ when member.isPending => const Chip(label: Text('Aprobar')),

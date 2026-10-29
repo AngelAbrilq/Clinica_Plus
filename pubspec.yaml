@@ -40,7 +40,6 @@ dependencies:
   drift: ^2.35.3
   drift_flutter: ^0.3.1
   flutter_secure_storage: ^11.2.0
-  flex_color_scheme: ^9.0.0
   google_fonts: ^9.0.0
   intl: ^0.20.3
   json_annotation: ^4.12.0

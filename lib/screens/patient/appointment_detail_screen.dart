@@ -164,7 +164,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                             label: 'Sede',
                             value: appointment.siteAddress.isEmpty
                                 ? appointment.siteName
-                                : '${appointment.siteName} · ${appointment.siteAddress}',
+                                : '${appointment.siteName}\n${appointment.siteAddress}',
                           ),
                           if (appointment.symptoms != null)
                             _InfoRow(

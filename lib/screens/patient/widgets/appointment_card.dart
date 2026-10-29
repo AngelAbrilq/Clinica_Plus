@@ -50,7 +50,7 @@ class AppointmentCard extends StatelessWidget {
                     Text(
                       startsAt == null
                           ? ''
-                          : DateFormatters.monthShort(startsAt).toUpperCase(),
+                          : DateFormatters.monthShort(startsAt),
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: colors.onPrimaryContainer,
                       ),
@@ -84,11 +84,11 @@ class AppointmentCard extends StatelessWidget {
                     Text(
                       startsAt == null
                           ? 'Sin hora asignada'
-                          : '${DateFormatters.weekdayShort(startsAt)} · ${DateFormatters.time(startsAt)}',
+                          : '${DateFormatters.weekdayShort(startsAt)}, ${DateFormatters.time(startsAt)}',
                       style: theme.textTheme.bodyMedium,
                     ),
                     Text(
-                      '${appointment.doctorName} · ${appointment.siteName}',
+                      '${appointment.doctorName}, ${appointment.siteName}',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colors.onSurfaceVariant,
                       ),
