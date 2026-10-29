@@ -8,6 +8,12 @@ abstract final class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String pendingApproval = '/pending';
   static const String patientHome = '/patient';
+  static const String patientBook = '/patient/book';
+  static const String patientAppointments = '/patient/appointments';
+  static const String patientAppointmentDetail = '/patient/appointments/:appointmentId';
+
+  static String patientAppointmentDetailPath(int appointmentId, {bool isNew = false}) =>
+      '/patient/appointments/$appointmentId${isNew ? '?new=1' : ''}';
   static const String doctorHome = '/doctor';
   static const String receptionHome = '/reception';
   static const String adminHome = '/admin';

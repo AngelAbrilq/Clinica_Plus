@@ -11,6 +11,9 @@ import '../../screens/auth/login_screen.dart';
 import '../../screens/auth/pending_approval_screen.dart';
 import '../../screens/auth/register_screen.dart';
 import '../../screens/doctor/doctor_home_screen.dart';
+import '../../screens/patient/appointment_detail_screen.dart';
+import '../../screens/patient/book_appointment_screen.dart';
+import '../../screens/patient/my_appointments_screen.dart';
 import '../../screens/patient/patient_home_screen.dart';
 import '../../screens/receptionist/receptionist_home_screen.dart';
 import '../../screens/shared/splash_screen.dart';
@@ -46,6 +49,25 @@ GoRouter buildAppRouter({
       AppRoutes.pendingApproval,
       (_) => const PendingApprovalScreen(),
     ),
+    _animatedRoute(
+      startup,
+      AppRoutes.patientBook,
+      (_) => const BookAppointmentScreen(),
+    ),
+    _animatedRoute(
+      startup,
+      AppRoutes.patientAppointments,
+      (_) => const MyAppointmentsScreen(),
+    ),
+    _animatedRoute(startup, AppRoutes.patientAppointmentDetail, (state) {
+      final appointmentId = int.tryParse(state.pathParameters['appointmentId'] ?? '');
+      return appointmentId == null
+          ? const MyAppointmentsScreen()
+          : AppointmentDetailScreen(
+              appointmentId: appointmentId,
+              isNewlyBooked: state.uri.queryParameters['new'] == '1',
+            );
+    }),
     _animatedRoute(
       startup,
       AppRoutes.patientHome,

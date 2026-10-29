@@ -7,7 +7,7 @@ import '../../utils/app_exception.dart';
 abstract final class SupabaseErrorMapper {
   /// Códigos SQLSTATE cuyo mensaje lo escribimos nosotros en las funciones
   /// SQL (raise exception) y por eso ya viene en español.
-  static const Set<String> _customMessageCodes = {'42501', '22023', 'P0002'};
+  static const Set<String> _customMessageCodes = {'42501', '22023', 'P0001', 'P0002'};
 
   /// Ejecuta [action]. [messagesByCode] permite mensajes según el contexto
   /// (ej. '23P01' → "El horario se cruza con otro").

@@ -5,6 +5,7 @@ import '../../models/site.dart';
 import '../../models/specialty.dart';
 import '../../models/staff_member.dart';
 import '../../models/user_role.dart';
+import '../services/catalog_queries.dart';
 import '../services/supabase_error_mapper.dart';
 import 'admin_repository.dart';
 
@@ -30,25 +31,10 @@ class SupabaseAdminRepository implements AdminRepository {
   });
 
   @override
-  Future<List<Site>> fetchSites() => SupabaseErrorMapper.guard(() async {
-    final rows = await _client
-        .from('sites')
-        .select()
-        .eq('is_active', true)
-        .order('name');
-    return rows.map(Site.fromJson).toList();
-  });
+  Future<List<Site>> fetchSites() => CatalogQueries.fetchSites(_client);
 
   @override
-  Future<List<Specialty>> fetchSpecialties() =>
-      SupabaseErrorMapper.guard(() async {
-        final rows = await _client
-            .from('specialties')
-            .select()
-            .eq('is_active', true)
-            .order('name');
-        return rows.map(Specialty.fromJson).toList();
-      });
+  Future<List<Specialty>> fetchSpecialties() => CatalogQueries.fetchSpecialties(_client);
 
   @override
   Future<void> assignRole({required String userId, required UserRole role}) =>
