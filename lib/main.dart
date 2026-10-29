@@ -1,12 +1,17 @@
-import 'package:flutter_localizations/flutter_localizations.dart'
-    show GlobalWidgetsLocalizations;
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'config/constants/app_constants.dart';
 import 'config/env.dart';
+import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
+import 'data/local/secure_session_storage.dart';
+import 'data/repositories/supabase_auth_repository.dart';
+import 'providers/auth_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,55 +19,45 @@ Future<void> main() async {
   await initializeDateFormatting('es_CO');
   await Supabase.initialize(
     url: Env.supabaseUrl,
-    anonKey: Env.supabaseAnonKey,
+    publishableKey: Env.supabaseAnonKey,
+    // Android: sesión cifrada. Web: almacenamiento por defecto del navegador.
+    authOptions: FlutterAuthClientOptions(
+      localStorage: kIsWeb ? null : SecureSessionStorage(),
+    ),
   );
-  runApp(const ClinicaPlusApp());
+
+  final authProvider = AuthProvider(SupabaseAuthRepository(Supabase.instance.client));
+  runApp(ClinicaPlusApp(authProvider: authProvider));
 }
 
-class ClinicaPlusApp extends StatelessWidget {
-  const ClinicaPlusApp({super.key});
+class ClinicaPlusApp extends StatefulWidget {
+  const ClinicaPlusApp({super.key, required this.authProvider});
+
+  final AuthProvider authProvider;
 
   @override
-  Widget build(BuildContext context) {
-    // MultiProvider + go_router se agregan en el módulo de Auth.
-    return MaterialApp(
-      title: AppConstants.appName,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
-      locale: const Locale('es', 'CO'),
-      supportedLocales: const [Locale('es', 'CO'), Locale('es')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      home: const _BootstrapScreen(),
-    );
-  }
+  State<ClinicaPlusApp> createState() => _ClinicaPlusAppState();
 }
 
-/// Pantalla temporal para validar tema y conexión con Supabase.
-class _BootstrapScreen extends StatelessWidget {
-  const _BootstrapScreen();
+class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
+  // Se crea una sola vez para no perder el estado de navegación.
+  late final GoRouter _router = buildAppRouter(widget.authProvider);
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.local_hospital_rounded,
-                size: 72, color: theme.colorScheme.primary),
-            const SizedBox(height: 16),
-            Text(AppConstants.appName, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 8),
-            const Text('Supabase conectado ✔'),
-          ],
+  Widget build(BuildContext context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthProvider>.value(value: widget.authProvider),
+        ],
+        child: MaterialApp.router(
+          title: AppConstants.appName,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: ThemeMode.system,
+          locale: const Locale('es', 'CO'),
+          supportedLocales: const [Locale('es', 'CO'), Locale('es')],
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          routerConfig: _router,
         ),
-      ),
-    );
-  }
+      );
 }

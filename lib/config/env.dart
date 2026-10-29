@@ -21,5 +21,16 @@ abstract final class Env {
         'Ejecuta con --dart-define-from-file=env.json',
       );
     }
+    final uri = Uri.tryParse(supabaseUrl);
+    final isValidUrl = uri != null &&
+        uri.scheme == 'https' &&
+        uri.host.isNotEmpty &&
+        (uri.path.isEmpty || uri.path == '/');
+    if (!isValidUrl) {
+      throw StateError(
+        'SUPABASE_URL inválida: "$supabaseUrl". '
+        'Debe ser https://TU-PROYECTO.supabase.co (sin rutas como /rest/v1).',
+      );
+    }
   }
 }
