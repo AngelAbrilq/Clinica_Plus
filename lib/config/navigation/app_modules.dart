@@ -78,8 +78,10 @@ abstract final class AppModules {
       title: 'Citas del día',
       description: 'Agenda por sede, reasignaciones e inasistencias',
       icon: Icons.view_agenda_outlined,
+      selectedIcon: Icons.view_agenda_rounded,
       roles: {UserRole.receptionist},
-      status: ModuleStatus.comingSoon,
+      route: AppRoutes.receptionAgenda,
+      navigationLabel: 'Agenda',
     ),
     AppModule(
       id: 'reception.checkin',
@@ -87,7 +89,8 @@ abstract final class AppModules {
       description: 'Escanea el código del paciente al llegar',
       icon: Icons.qr_code_scanner_rounded,
       roles: {UserRole.receptionist},
-      status: ModuleStatus.comingSoon,
+      route: AppRoutes.receptionCheckIn,
+      navigationLabel: 'Check-in',
     ),
 
     // ---------------- Administración ----------------

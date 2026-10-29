@@ -1,3 +1,4 @@
+import '../utils/check_in_code.dart';
 import 'appointment_status.dart';
 
 /// Cita vista por el paciente (resultado de `get_my_appointments`).
@@ -38,7 +39,7 @@ class PatientAppointment {
   final String? cancelReason;
 
   /// Contenido del QR que escanea recepción.
-  String get checkInCode => 'clinicaplus:checkin:$confirmationToken';
+  String get checkInCode => CheckInCode.build(confirmationToken);
 
   bool isUpcoming(DateTime now) =>
       status.isActive && startsAt != null && (endsAt ?? startsAt!).isAfter(now);

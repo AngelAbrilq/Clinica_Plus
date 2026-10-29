@@ -19,6 +19,8 @@ abstract final class AppRoutes {
   }) => '/patient/appointments/$appointmentId${isNew ? '?new=1' : ''}';
   static const String doctorHome = '/doctor';
   static const String receptionHome = '/reception';
+  static const String receptionAgenda = '/reception/agenda';
+  static const String receptionCheckIn = '/reception/check-in';
   static const String adminHome = '/admin';
   static const String adminStaff = '/admin/staff';
   static const String adminDoctorSchedules = '/admin/doctors/:doctorId';

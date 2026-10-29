@@ -14,10 +14,12 @@ import 'data/local/secure_session_storage.dart';
 import 'data/repositories/supabase_admin_repository.dart';
 import 'data/repositories/supabase_appointment_repository.dart';
 import 'data/repositories/supabase_auth_repository.dart';
+import 'data/repositories/supabase_reception_repository.dart';
 import 'providers/admin_provider.dart';
 import 'providers/app_startup_notifier.dart';
 import 'providers/appointment_provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/reception_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +91,11 @@ class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
       ChangeNotifierProvider<AppointmentProvider>(
         create: (_) => AppointmentProvider(
           SupabaseAppointmentRepository(Supabase.instance.client),
+        ),
+      ),
+      ChangeNotifierProvider<ReceptionProvider>(
+        create: (_) => ReceptionProvider(
+          SupabaseReceptionRepository(Supabase.instance.client),
         ),
       ),
       // Lazy: solo se crea cuando un admin abre el módulo.

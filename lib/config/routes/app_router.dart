@@ -15,6 +15,8 @@ import '../../screens/patient/appointment_detail_screen.dart';
 import '../../screens/patient/book_appointment_screen.dart';
 import '../../screens/patient/my_appointments_screen.dart';
 import '../../screens/patient/patient_home_screen.dart';
+import '../../screens/receptionist/check_in_scanner_screen.dart';
+import '../../screens/receptionist/reception_agenda_screen.dart';
 import '../../screens/receptionist/receptionist_home_screen.dart';
 import '../../screens/shared/splash_screen.dart';
 import '../../widgets/animations/circular_reveal_clipper.dart';
@@ -100,6 +102,16 @@ GoRouter buildAppRouter({
           startup,
           AppRoutes.receptionHome,
           (_) => const ReceptionistHomeScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.receptionAgenda,
+          (_) => const ReceptionAgendaScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.receptionCheckIn,
+          (_) => const CheckInScannerScreen(),
         ),
         _animatedRoute(
           startup,

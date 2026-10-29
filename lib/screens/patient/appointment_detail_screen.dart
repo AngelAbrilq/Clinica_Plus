@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../models/patient_appointment.dart';
 import '../../providers/appointment_provider.dart';
+import '../../utils/check_in_code.dart';
 import '../../utils/date_formatters.dart';
 import '../../utils/specialty_icons.dart';
 import '../../widgets/animations/fade_slide_in.dart';
@@ -286,6 +287,13 @@ class _CheckInQrCard extends StatelessWidget {
               backgroundColor: Colors.white,
               semanticsLabel: 'Código QR de check-in',
             ),
+          ),
+          const SizedBox(height: 12),
+          // Respaldo si la cámara de recepción falla: se puede dictar/escribir.
+          SelectableText(
+            CheckInCode.parse(code) ?? code,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ),
