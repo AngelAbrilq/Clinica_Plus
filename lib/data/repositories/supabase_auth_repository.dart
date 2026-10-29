@@ -19,18 +19,22 @@ class SupabaseAuthRepository implements AuthRepository {
   };
 
   @override
-  Stream<void> get sessionChanges => _client.auth.onAuthStateChange
-      .where((state) => _relevantEvents.contains(state.event));
+  Stream<void> get sessionChanges => _client.auth.onAuthStateChange.where(
+    (state) => _relevantEvents.contains(state.event),
+  );
 
   @override
   bool get isSignedIn => _client.auth.currentSession != null;
 
   @override
   Future<void> signIn({required String email, required String password}) =>
-      _guard(() => _client.auth.signInWithPassword(email: email, password: password));
+      _guard(
+        () => _client.auth.signInWithPassword(email: email, password: password),
+      );
 
   @override
-  Future<SignUpResult> signUpPatient(PatientSignUpData data) => _guard(() async {
+  Future<SignUpResult> signUpPatient(PatientSignUpData data) =>
+      _guard(() async {
         final response = await _client.auth.signUp(
           email: data.email.trim(),
           password: data.password,
@@ -50,26 +54,33 @@ class SupabaseAuthRepository implements AuthRepository {
 
   @override
   Future<UserProfile?> fetchCurrentProfile() => _guard(() async {
-        final userId = _client.auth.currentUser?.id;
-        if (userId == null) return null;
-        final row = await _client
-            .from('profiles')
-            .select()
-            .eq('id', userId)
-            .maybeSingle();
-        return row == null ? null : UserProfile.fromJson(row);
-      });
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) return null;
+    final row = await _client
+        .from('profiles')
+        .select()
+        .eq('id', userId)
+        .maybeSingle();
+    return row == null ? null : UserProfile.fromJson(row);
+  });
 
   /// Ejecuta [action] traduciendo errores técnicos a [AppException].
   Future<T> _guard<T>(Future<T> Function() action) async {
     try {
       return await action();
     } on AuthException catch (error) {
-      _logDebug('AuthException code=${error.code} status=${error.statusCode} msg=${error.message}');
+      _logDebug(
+        'AuthException code=${error.code} status=${error.statusCode} msg=${error.message}',
+      );
       throw AppException(_authMessage(error), cause: error);
     } on PostgrestException catch (error) {
-      _logDebug('PostgrestException code=${error.code} msg=${error.message} details=${error.details}');
-      throw AppException('No pudimos cargar tus datos. Intenta de nuevo.', cause: error);
+      _logDebug(
+        'PostgrestException code=${error.code} msg=${error.message} details=${error.details}',
+      );
+      throw AppException(
+        'No pudimos cargar tus datos. Intenta de nuevo.',
+        cause: error,
+      );
     } catch (error) {
       _logDebug('Unexpected error: $error');
       throw AppException(
@@ -93,7 +104,8 @@ class SupabaseAuthRepository implements AuthRepository {
     if (code == 'email_not_confirmed' || message.contains('not confirmed')) {
       return 'Confirma tu correo antes de iniciar sesión. Revisa tu bandeja de entrada.';
     }
-    if (code == 'user_already_exists' || message.contains('already registered')) {
+    if (code == 'user_already_exists' ||
+        message.contains('already registered')) {
       return 'Ya existe una cuenta con este correo.';
     }
     if (code.contains('rate_limit') || error.statusCode == '429') {

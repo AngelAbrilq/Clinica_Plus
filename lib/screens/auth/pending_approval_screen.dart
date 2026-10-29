@@ -13,10 +13,13 @@ class PendingApprovalScreen extends StatelessWidget {
     final auth = context.watch<AuthProvider>();
     return AuthScaffold(
       title: 'Cuenta pendiente de aprobación',
-      subtitle: 'El administrador debe asignarte un rol (médico o recepción) '
+      subtitle:
+          'El administrador debe asignarte un rol (médico o recepción) '
           'antes de que puedas usar la aplicación.',
       child: OutlinedButton.icon(
-        onPressed: auth.isBusy ? null : () => context.read<AuthProvider>().signOut(),
+        onPressed: auth.isBusy
+            ? null
+            : () => context.read<AuthProvider>().signOut(),
         icon: const Icon(Icons.logout_rounded),
         label: const Text('Cerrar sesión'),
       ),

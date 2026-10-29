@@ -20,12 +20,12 @@ abstract final class AppRoutes {
 
   /// Pantalla inicial según el rol (null = pendiente de aprobación).
   static String homeFor(UserRole? role) => switch (role) {
-        UserRole.patient => patientHome,
-        UserRole.doctor => doctorHome,
-        UserRole.receptionist => receptionHome,
-        UserRole.admin => adminHome,
-        null => pendingApproval,
-      };
+    UserRole.patient => patientHome,
+    UserRole.doctor => doctorHome,
+    UserRole.receptionist => receptionHome,
+    UserRole.admin => adminHome,
+    null => pendingApproval,
+  };
 
   /// Un usuario solo navega dentro de la sección de su rol.
   static bool canAccess(String location, UserRole? role) =>

@@ -11,7 +11,7 @@ enum UserRole {
   bool get isStaff => this != UserRole.patient;
 
   static UserRole fromString(String value) => UserRole.values.firstWhere(
-        (role) => role.name == value,
-        orElse: () => throw ArgumentError('Rol desconocido: $value'),
-      );
+    (role) => role.name == value,
+    orElse: () => throw ArgumentError('Rol desconocido: $value'),
+  );
 }

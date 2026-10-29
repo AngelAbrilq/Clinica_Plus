@@ -35,10 +35,12 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
   static final RegExp _licensePattern = RegExp(r'^[A-Za-z0-9-]{3,30}$');
 
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _licenseController =
-      TextEditingController(text: widget.member.doctor?.licenseNumber ?? '');
-  late UserRole _role =
-      widget.member.role == UserRole.receptionist ? UserRole.receptionist : UserRole.doctor;
+  late final TextEditingController _licenseController = TextEditingController(
+    text: widget.member.doctor?.licenseNumber ?? '',
+  );
+  late UserRole _role = widget.member.role == UserRole.receptionist
+      ? UserRole.receptionist
+      : UserRole.doctor;
   late int? _specialtyId = widget.member.doctor?.specialtyId;
 
   @override
@@ -64,7 +66,9 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
     final messenger = ScaffoldMessenger.of(context);
     Navigator.of(context).pop();
     messenger.showSnackBar(
-      SnackBar(content: Text('${widget.member.displayName} ahora es ${_role.label}')),
+      SnackBar(
+        content: Text('${widget.member.displayName} ahora es ${_role.label}'),
+      ),
     );
   }
 
@@ -74,7 +78,12 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 20 + MediaQuery.viewInsetsOf(context).bottom),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        0,
+        20,
+        20 + MediaQuery.viewInsetsOf(context).bottom,
+      ),
       child: Form(
         key: _formKey,
         child: Column(
@@ -83,10 +92,16 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
           children: [
             Text('Asignar rol', style: theme.textTheme.titleLarge),
             const SizedBox(height: 4),
-            Text(widget.member.profile.email, style: theme.textTheme.bodyMedium),
+            Text(
+              widget.member.profile.email,
+              style: theme.textTheme.bodyMedium,
+            ),
             const SizedBox(height: 20),
             if (admin.errorMessage != null)
-              ErrorBanner(message: admin.errorMessage!, onDismiss: admin.clearError),
+              ErrorBanner(
+                message: admin.errorMessage!,
+                onDismiss: admin.clearError,
+              ),
             SegmentedButton<UserRole>(
               segments: const [
                 ButtonSegment(
@@ -101,7 +116,8 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
                 ),
               ],
               selected: {_role},
-              onSelectionChanged: (selection) => setState(() => _role = selection.first),
+              onSelectionChanged: (selection) =>
+                  setState(() => _role = selection.first),
             ),
             if (_role == UserRole.doctor) ...[
               const SizedBox(height: 16),
@@ -113,9 +129,13 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
                 ),
                 items: [
                   for (final Specialty specialty in admin.specialties)
-                    DropdownMenuItem(value: specialty.id, child: Text(specialty.name)),
+                    DropdownMenuItem(
+                      value: specialty.id,
+                      child: Text(specialty.name),
+                    ),
                 ],
-                validator: (value) => value == null ? 'Elige una especialidad' : null,
+                validator: (value) =>
+                    value == null ? 'Elige una especialidad' : null,
                 onChanged: (value) => setState(() => _specialtyId = value),
               ),
               const SizedBox(height: 16),
@@ -129,7 +149,8 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
                 ),
                 validator: (value) {
                   final license = value?.trim() ?? '';
-                  if (license.isEmpty) return 'El registro médico es obligatorio';
+                  if (license.isEmpty)
+                    return 'El registro médico es obligatorio';
                   if (!_licensePattern.hasMatch(license)) {
                     return 'Solo letras, números y guiones (3 a 30)';
                   }
@@ -138,7 +159,11 @@ class _AssignRoleSheetState extends State<_AssignRoleSheet> {
               ),
             ],
             const SizedBox(height: 24),
-            LoadingButton(label: 'Guardar', isLoading: admin.isSaving, onPressed: _submit),
+            LoadingButton(
+              label: 'Guardar',
+              isLoading: admin.isSaving,
+              onPressed: _submit,
+            ),
           ],
         ),
       ),

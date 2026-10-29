@@ -13,6 +13,7 @@ import 'data/local/secure_session_storage.dart';
 import 'data/repositories/supabase_admin_repository.dart';
 import 'data/repositories/supabase_auth_repository.dart';
 import 'providers/admin_provider.dart';
+import 'providers/app_startup_notifier.dart';
 import 'providers/auth_provider.dart';
 
 Future<void> main() async {
@@ -28,7 +29,9 @@ Future<void> main() async {
     ),
   );
 
-  final authProvider = AuthProvider(SupabaseAuthRepository(Supabase.instance.client));
+  final authProvider = AuthProvider(
+    SupabaseAuthRepository(Supabase.instance.client),
+  );
   runApp(ClinicaPlusApp(authProvider: authProvider));
 }
 
@@ -42,28 +45,42 @@ class ClinicaPlusApp extends StatefulWidget {
 }
 
 class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
+  final AppStartupNotifier _startup = AppStartupNotifier();
+
   // Se crea una sola vez para no perder el estado de navegación.
-  late final GoRouter _router = buildAppRouter(widget.authProvider);
+  late final GoRouter _router = buildAppRouter(
+    auth: widget.authProvider,
+    startup: _startup,
+  );
+
+  @override
+  void dispose() {
+    _router.dispose();
+    _startup.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          ChangeNotifierProvider<AuthProvider>.value(value: widget.authProvider),
-          // Lazy: solo se crea cuando un admin abre el módulo.
-          ChangeNotifierProvider<AdminProvider>(
-            create: (_) => AdminProvider(SupabaseAdminRepository(Supabase.instance.client)),
-          ),
-        ],
-        child: MaterialApp.router(
-          title: AppConstants.appName,
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
-          locale: const Locale('es', 'CO'),
-          supportedLocales: const [Locale('es', 'CO'), Locale('es')],
-          localizationsDelegates: GlobalMaterialLocalizations.delegates,
-          routerConfig: _router,
-        ),
-      );
+    providers: [
+      ChangeNotifierProvider<AuthProvider>.value(value: widget.authProvider),
+      ChangeNotifierProvider<AppStartupNotifier>.value(value: _startup),
+      // Lazy: solo se crea cuando un admin abre el módulo.
+      ChangeNotifierProvider<AdminProvider>(
+        create: (_) =>
+            AdminProvider(SupabaseAdminRepository(Supabase.instance.client)),
+      ),
+    ],
+    child: MaterialApp.router(
+      title: AppConstants.appName,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
+      locale: const Locale('es', 'CO'),
+      supportedLocales: const [Locale('es', 'CO'), Locale('es')],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      routerConfig: _router,
+    ),
+  );
 }

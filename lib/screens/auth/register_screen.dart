@@ -66,15 +66,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     FocusScope.of(context).unfocus();
 
     final result = await context.read<AuthProvider>().signUpPatient(
-          PatientSignUpData(
-            fullName: _nameController.text,
-            documentType: _documentType,
-            documentNumber: _documentController.text,
-            phone: _phoneController.text,
-            email: _emailController.text,
-            password: _passwordController.text,
-          ),
-        );
+      PatientSignUpData(
+        fullName: _nameController.text,
+        documentType: _documentType,
+        documentNumber: _documentController.text,
+        phone: _phoneController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      ),
+    );
 
     if (!mounted || result != SignUpResult.emailConfirmationRequired) return;
     await showDialog<void>(
@@ -114,7 +114,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (auth.errorMessage != null)
-                ErrorBanner(message: auth.errorMessage!, onDismiss: auth.clearError),
+                ErrorBanner(
+                  message: auth.errorMessage!,
+                  onDismiss: auth.clearError,
+                ),
               TextFormField(
                 controller: _nameController,
                 textCapitalization: TextCapitalization.words,
@@ -213,7 +216,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     : null,
               ),
               const SizedBox(height: 16),
-              LoadingButton(label: 'Crear cuenta', isLoading: auth.isBusy, onPressed: _submit),
+              LoadingButton(
+                label: 'Crear cuenta',
+                isLoading: auth.isBusy,
+                onPressed: _submit,
+              ),
             ],
           ),
         ),

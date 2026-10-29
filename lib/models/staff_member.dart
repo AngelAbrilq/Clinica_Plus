@@ -38,7 +38,8 @@ class StaffMember {
 
   UserRole? get role => profile.role;
   bool get isPending => profile.isPendingApproval;
-  bool get isActiveDoctor => role == UserRole.doctor && (doctor?.isActive ?? false);
+  bool get isActiveDoctor =>
+      role == UserRole.doctor && (doctor?.isActive ?? false);
 
   String get displayName =>
       profile.fullName.trim().isEmpty ? profile.email : profile.fullName;
@@ -48,7 +49,8 @@ class StaffMember {
     final rawDoctor = json['doctors'];
     final doctorJson = switch (rawDoctor) {
       final Map<String, dynamic> map => map,
-      final List<dynamic> list when list.isNotEmpty => list.first as Map<String, dynamic>,
+      final List<dynamic> list when list.isNotEmpty =>
+        list.first as Map<String, dynamic>,
       _ => null,
     };
     return StaffMember(

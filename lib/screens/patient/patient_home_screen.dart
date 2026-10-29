@@ -7,13 +7,13 @@ class PatientHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const RoleHomePlaceholder(
-        title: 'Mis citas',
-        icon: Icons.person_rounded,
-        upcomingModules: [
-          'Agendar cita por síntomas',
-          'Mis próximas citas y código QR de check-in',
-          'Sala de espera en vivo',
-          'Mi historia clínica',
-        ],
-      );
+    title: 'Mis citas',
+    icon: Icons.person_rounded,
+    upcomingModules: [
+      'Agendar cita por síntomas',
+      'Mis próximas citas y código QR de check-in',
+      'Sala de espera en vivo',
+      'Mi historia clínica',
+    ],
+  );
 }

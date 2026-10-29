@@ -9,14 +9,13 @@ import '../../../providers/admin_provider.dart';
 Future<NewDoctorSchedule?> showAddScheduleDialog(
   BuildContext context, {
   required int doctorId,
-}) =>
-    showDialog<NewDoctorSchedule>(
-      context: context,
-      builder: (_) => ChangeNotifierProvider.value(
-        value: context.read<AdminProvider>(),
-        child: _AddScheduleDialog(doctorId: doctorId),
-      ),
-    );
+}) => showDialog<NewDoctorSchedule>(
+  context: context,
+  builder: (_) => ChangeNotifierProvider.value(
+    value: context.read<AdminProvider>(),
+    child: _AddScheduleDialog(doctorId: doctorId),
+  ),
+);
 
 class _AddScheduleDialog extends StatefulWidget {
   const _AddScheduleDialog({required this.doctorId});
@@ -60,7 +59,9 @@ class _AddScheduleDialogState extends State<_AddScheduleDialog> {
   void _submit() {
     final isFormValid = _formKey.currentState?.validate() ?? false;
     if (_toMinutes(_end) <= _toMinutes(_start)) {
-      setState(() => _timeError = 'La hora de fin debe ser posterior a la de inicio');
+      setState(
+        () => _timeError = 'La hora de fin debe ser posterior a la de inicio',
+      );
       return;
     }
     if (!isFormValid) return;
@@ -105,9 +106,13 @@ class _AddScheduleDialogState extends State<_AddScheduleDialog> {
                 decoration: const InputDecoration(labelText: 'Día'),
                 items: [
                   for (final entry in AppConstants.weekdayLabels.entries)
-                    DropdownMenuItem(value: entry.key, child: Text(entry.value)),
+                    DropdownMenuItem(
+                      value: entry.key,
+                      child: Text(entry.value),
+                    ),
                 ],
-                onChanged: (value) => setState(() => _weekday = value ?? _weekday),
+                onChanged: (value) =>
+                    setState(() => _weekday = value ?? _weekday),
               ),
               const SizedBox(height: 16),
               Row(
@@ -132,14 +137,20 @@ class _AddScheduleDialogState extends State<_AddScheduleDialog> {
               if (_timeError != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(_timeError!, style: TextStyle(color: colors.error)),
+                  child: Text(
+                    _timeError!,
+                    style: TextStyle(color: colors.error),
+                  ),
                 ),
             ],
           ),
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancelar')),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancelar'),
+        ),
         FilledButton(onPressed: _submit, child: const Text('Agregar')),
       ],
     );

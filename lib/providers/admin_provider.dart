@@ -30,7 +30,8 @@ class AdminProvider extends ChangeNotifier {
   bool get isSaving => _isSaving;
   String? get errorMessage => _errorMessage;
 
-  List<StaffMember> get pending => _staff.where((member) => member.isPending).toList();
+  List<StaffMember> get pending =>
+      _staff.where((member) => member.isPending).toList();
 
   List<StaffMember> withRole(UserRole role) =>
       _staff.where((member) => member.role == role).toList();
@@ -44,22 +45,22 @@ class AdminProvider extends ChangeNotifier {
 
   /// Carga personal y catálogos en paralelo.
   Future<void> loadStaff() => _load(() async {
-        final results = await Future.wait([
-          _repository.fetchStaff(),
-          if (_sites.isEmpty) _repository.fetchSites(),
-          if (_specialties.isEmpty) _repository.fetchSpecialties(),
-        ]);
-        _staff = results[0] as List<StaffMember>;
-        var index = 1;
-        if (_sites.isEmpty) _sites = results[index++] as List<Site>;
-        if (_specialties.isEmpty) _specialties = results[index] as List<Specialty>;
-      });
+    final results = await Future.wait([
+      _repository.fetchStaff(),
+      if (_sites.isEmpty) _repository.fetchSites(),
+      if (_specialties.isEmpty) _repository.fetchSpecialties(),
+    ]);
+    _staff = results[0] as List<StaffMember>;
+    var index = 1;
+    if (_sites.isEmpty) _sites = results[index++] as List<Site>;
+    if (_specialties.isEmpty) _specialties = results[index] as List<Specialty>;
+  });
 
   Future<void> loadSchedules(int doctorId) => _load(() async {
-        _schedules = const []; // evita mostrar horarios de otro médico
-        _schedules = await _repository.fetchSchedules(doctorId);
-        if (_sites.isEmpty) _sites = await _repository.fetchSites();
-      });
+    _schedules = const []; // evita mostrar horarios de otro médico
+    _schedules = await _repository.fetchSchedules(doctorId);
+    if (_sites.isEmpty) _sites = await _repository.fetchSites();
+  });
 
   Future<bool> assignRole({required String userId, required UserRole role}) =>
       _save(() async {
@@ -71,25 +72,24 @@ class AdminProvider extends ChangeNotifier {
     required String userId,
     required int specialtyId,
     required String licenseNumber,
-  }) =>
-      _save(() async {
-        await _repository.registerDoctor(
-          userId: userId,
-          specialtyId: specialtyId,
-          licenseNumber: licenseNumber,
-        );
-        _staff = await _repository.fetchStaff();
-      });
+  }) => _save(() async {
+    await _repository.registerDoctor(
+      userId: userId,
+      specialtyId: specialtyId,
+      licenseNumber: licenseNumber,
+    );
+    _staff = await _repository.fetchStaff();
+  });
 
   Future<bool> addSchedule(NewDoctorSchedule schedule) => _save(() async {
-        await _repository.addSchedule(schedule);
-        _schedules = await _repository.fetchSchedules(schedule.doctorId);
-      });
+    await _repository.addSchedule(schedule);
+    _schedules = await _repository.fetchSchedules(schedule.doctorId);
+  });
 
   Future<bool> deleteSchedule(DoctorSchedule schedule) => _save(() async {
-        await _repository.deleteSchedule(schedule.id);
-        _schedules = _schedules.where((item) => item.id != schedule.id).toList();
-      });
+    await _repository.deleteSchedule(schedule.id);
+    _schedules = _schedules.where((item) => item.id != schedule.id).toList();
+  });
 
   void clearError() {
     if (_errorMessage == null) return;

@@ -34,9 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
     FocusScope.of(context).unfocus();
     // Si es exitoso, go_router redirige automáticamente según el rol.
     await context.read<AuthProvider>().signIn(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   @override
@@ -52,7 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (auth.errorMessage != null)
-                ErrorBanner(message: auth.errorMessage!, onDismiss: auth.clearError),
+                ErrorBanner(
+                  message: auth.errorMessage!,
+                  onDismiss: auth.clearError,
+                ),
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -79,7 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              LoadingButton(label: 'Iniciar sesión', isLoading: auth.isBusy, onPressed: _submit),
+              LoadingButton(
+                label: 'Iniciar sesión',
+                isLoading: auth.isBusy,
+                onPressed: _submit,
+              ),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

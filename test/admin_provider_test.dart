@@ -13,7 +13,11 @@ import 'package:flutter_test/flutter_test.dart';
 class FakeAdminRepository implements AdminRepository {
   final List<StaffMember> staff = [
     const StaffMember(
-      profile: UserProfile(id: 'p-1', email: 'nuevo@clinicaplus.co', fullName: 'Nuevo'),
+      profile: UserProfile(
+        id: 'p-1',
+        email: 'nuevo@clinicaplus.co',
+        fullName: 'Nuevo',
+      ),
     ),
     const StaffMember(
       profile: UserProfile(
@@ -39,15 +43,20 @@ class FakeAdminRepository implements AdminRepository {
   Future<List<StaffMember>> fetchStaff() async => List.of(staff);
 
   @override
-  Future<List<Site>> fetchSites() async =>
-      const [Site(id: 1, name: 'Sede Principal', address: '')];
+  Future<List<Site>> fetchSites() async => const [
+    Site(id: 1, name: 'Sede Principal', address: ''),
+  ];
 
   @override
-  Future<List<Specialty>> fetchSpecialties() async =>
-      const [Specialty(id: 1, name: 'Medicina General', slotMinutes: 20)];
+  Future<List<Specialty>> fetchSpecialties() async => const [
+    Specialty(id: 1, name: 'Medicina General', slotMinutes: 20),
+  ];
 
   @override
-  Future<void> assignRole({required String userId, required UserRole role}) async {
+  Future<void> assignRole({
+    required String userId,
+    required UserRole role,
+  }) async {
     calls.add('assignRole:$userId:${role.name}');
     _throwIfNeeded();
   }
@@ -109,22 +118,36 @@ void main() {
     expect(provider.isSaving, isFalse);
   });
 
-  test('error del repositorio se expone como mensaje y devuelve false', () async {
-    // Arrange
-    repository.nextError = const AppException('Ese registro médico ya está asignado.');
-    // Act
-    final success = await provider.assignRole(userId: 'p-1', role: UserRole.receptionist);
-    // Assert
-    expect(success, isFalse);
-    expect(provider.errorMessage, 'Ese registro médico ya está asignado.');
-    expect(provider.isSaving, isFalse);
-  });
+  test(
+    'error del repositorio se expone como mensaje y devuelve false',
+    () async {
+      // Arrange
+      repository.nextError = const AppException(
+        'Ese registro médico ya está asignado.',
+      );
+      // Act
+      final success = await provider.assignRole(
+        userId: 'p-1',
+        role: UserRole.receptionist,
+      );
+      // Assert
+      expect(success, isFalse);
+      expect(provider.errorMessage, 'Ese registro médico ya está asignado.');
+      expect(provider.isSaving, isFalse);
+    },
+  );
 
   test('clearError limpia el mensaje', () async {
     repository.nextError = const AppException('x');
-    await provider.addSchedule(const NewDoctorSchedule(
-      doctorId: 1, siteId: 1, weekday: 1, startTime: '08:00', endTime: '09:00',
-    ));
+    await provider.addSchedule(
+      const NewDoctorSchedule(
+        doctorId: 1,
+        siteId: 1,
+        weekday: 1,
+        startTime: '08:00',
+        endTime: '09:00',
+      ),
+    );
     provider.clearError();
     expect(provider.errorMessage, isNull);
   });

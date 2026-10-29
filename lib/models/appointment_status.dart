@@ -15,12 +15,8 @@ enum AppointmentStatus {
   final String dbValue;
   final String label;
 
-  bool get isActive => const {
-        assigned,
-        confirmed,
-        checkedIn,
-        inProgress,
-      }.contains(this);
+  bool get isActive =>
+      const {assigned, confirmed, checkedIn, inProgress}.contains(this);
 
   bool get isFinal => const {completed, cancelled, noShow}.contains(this);
 

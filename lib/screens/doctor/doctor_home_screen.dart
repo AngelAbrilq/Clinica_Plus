@@ -7,12 +7,12 @@ class DoctorHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const RoleHomePlaceholder(
-        title: 'Portal médico',
-        icon: Icons.medical_services_rounded,
-        upcomingModules: [
-          'Agenda del día',
-          'Atender paciente y registrar diagnóstico (CIE-10)',
-          'Historias clínicas de mis pacientes',
-        ],
-      );
+    title: 'Portal médico',
+    icon: Icons.medical_services_rounded,
+    upcomingModules: [
+      'Agenda del día',
+      'Atender paciente y registrar diagnóstico (CIE-10)',
+      'Historias clínicas de mis pacientes',
+    ],
+  );
 }

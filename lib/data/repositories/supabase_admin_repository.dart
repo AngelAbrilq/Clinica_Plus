@@ -21,24 +21,32 @@ class SupabaseAdminRepository implements AdminRepository {
 
   @override
   Future<List<StaffMember>> fetchStaff() => SupabaseErrorMapper.guard(() async {
-        final rows = await _client
-            .from('profiles')
-            .select(_staffSelect)
-            .or('role.is.null,role.neq.patient')
-            .order('created_at', ascending: false);
-        return rows.map(StaffMember.fromJson).toList();
-      });
+    final rows = await _client
+        .from('profiles')
+        .select(_staffSelect)
+        .or('role.is.null,role.neq.patient')
+        .order('created_at', ascending: false);
+    return rows.map(StaffMember.fromJson).toList();
+  });
 
   @override
   Future<List<Site>> fetchSites() => SupabaseErrorMapper.guard(() async {
-        final rows = await _client.from('sites').select().eq('is_active', true).order('name');
-        return rows.map(Site.fromJson).toList();
-      });
+    final rows = await _client
+        .from('sites')
+        .select()
+        .eq('is_active', true)
+        .order('name');
+    return rows.map(Site.fromJson).toList();
+  });
 
   @override
-  Future<List<Specialty>> fetchSpecialties() => SupabaseErrorMapper.guard(() async {
-        final rows =
-            await _client.from('specialties').select().eq('is_active', true).order('name');
+  Future<List<Specialty>> fetchSpecialties() =>
+      SupabaseErrorMapper.guard(() async {
+        final rows = await _client
+            .from('specialties')
+            .select()
+            .eq('is_active', true)
+            .order('name');
         return rows.map(Specialty.fromJson).toList();
       });
 
@@ -56,21 +64,22 @@ class SupabaseAdminRepository implements AdminRepository {
     required String userId,
     required int specialtyId,
     required String licenseNumber,
-  }) =>
-      SupabaseErrorMapper.guard(
-        () async {
-          final doctorId = await _client.rpc<num>(
-            'admin_register_doctor',
-            params: {
-              'p_user_id': userId,
-              'p_specialty_id': specialtyId,
-              'p_license_number': licenseNumber,
-            },
-          );
-          return doctorId.toInt();
+  }) => SupabaseErrorMapper.guard(
+    () async {
+      final doctorId = await _client.rpc<num>(
+        'admin_register_doctor',
+        params: {
+          'p_user_id': userId,
+          'p_specialty_id': specialtyId,
+          'p_license_number': licenseNumber,
         },
-        messagesByCode: {'23505': 'Ese registro médico ya está asignado a otro médico.'},
       );
+      return doctorId.toInt();
+    },
+    messagesByCode: {
+      '23505': 'Ese registro médico ya está asignado a otro médico.',
+    },
+  );
 
   @override
   Future<List<DoctorSchedule>> fetchSchedules(int doctorId) =>
@@ -85,7 +94,8 @@ class SupabaseAdminRepository implements AdminRepository {
       });
 
   @override
-  Future<void> addSchedule(NewDoctorSchedule schedule) => SupabaseErrorMapper.guard(
+  Future<void> addSchedule(NewDoctorSchedule schedule) =>
+      SupabaseErrorMapper.guard(
         () => _client.from('doctor_schedules').insert(schedule.toJson()),
         messagesByCode: {
           '23P01': 'Este horario se cruza con otro del mismo médico ese día.',
@@ -95,6 +105,6 @@ class SupabaseAdminRepository implements AdminRepository {
 
   @override
   Future<void> deleteSchedule(int scheduleId) => SupabaseErrorMapper.guard(
-        () => _client.from('doctor_schedules').delete().eq('id', scheduleId),
-      );
+    () => _client.from('doctor_schedules').delete().eq('id', scheduleId),
+  );
 }

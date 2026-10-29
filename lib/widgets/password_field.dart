@@ -28,22 +28,24 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) => TextFormField(
-        controller: widget.controller,
-        obscureText: _obscure,
-        validator: widget.validator,
-        textInputAction: widget.textInputAction,
-        onFieldSubmitted: widget.onSubmitted,
-        autofillHints: [
-          widget.isNewPassword ? AutofillHints.newPassword : AutofillHints.password,
-        ],
-        decoration: InputDecoration(
-          labelText: widget.label,
-          prefixIcon: const Icon(Icons.lock_outline_rounded),
-          suffixIcon: IconButton(
-            tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
-            onPressed: () => setState(() => _obscure = !_obscure),
-            icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-          ),
+    controller: widget.controller,
+    obscureText: _obscure,
+    validator: widget.validator,
+    textInputAction: widget.textInputAction,
+    onFieldSubmitted: widget.onSubmitted,
+    autofillHints: [
+      widget.isNewPassword ? AutofillHints.newPassword : AutofillHints.password,
+    ],
+    decoration: InputDecoration(
+      labelText: widget.label,
+      prefixIcon: const Icon(Icons.lock_outline_rounded),
+      suffixIcon: IconButton(
+        tooltip: _obscure ? 'Mostrar contraseña' : 'Ocultar contraseña',
+        onPressed: () => setState(() => _obscure = !_obscure),
+        icon: Icon(
+          _obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
         ),
-      );
+      ),
+    ),
+  );
 }

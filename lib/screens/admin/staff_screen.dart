@@ -6,6 +6,7 @@ import '../../config/routes/app_routes.dart';
 import '../../models/staff_member.dart';
 import '../../models/user_role.dart';
 import '../../providers/admin_provider.dart';
+import '../../widgets/animations/fade_slide_in.dart';
 import '../../widgets/error_banner.dart';
 import 'widgets/assign_role_sheet.dart';
 
@@ -35,15 +36,17 @@ class _StaffScreenState extends State<StaffScreen> {
   void initState() {
     super.initState();
     // Se carga después del primer frame para no notificar durante el build.
-    WidgetsBinding.instance.addPostFrameCallback((_) => context.read<AdminProvider>().loadStaff());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<AdminProvider>().loadStaff(),
+    );
   }
 
   List<StaffMember> _filtered(AdminProvider admin) => switch (_filter) {
-        _StaffFilter.pending => admin.pending,
-        _StaffFilter.doctors => admin.withRole(UserRole.doctor),
-        _StaffFilter.reception => admin.withRole(UserRole.receptionist),
-        _StaffFilter.admins => admin.withRole(UserRole.admin),
-      };
+    _StaffFilter.pending => admin.pending,
+    _StaffFilter.doctors => admin.withRole(UserRole.doctor),
+    _StaffFilter.reception => admin.withRole(UserRole.receptionist),
+    _StaffFilter.admins => admin.withRole(UserRole.admin),
+  };
 
   Future<void> _onMemberTap(StaffMember member) async {
     final doctor = member.doctor;
@@ -74,7 +77,8 @@ class _StaffScreenState extends State<StaffScreen> {
                     padding: const EdgeInsets.only(right: 8),
                     child: ChoiceChip(
                       label: Text(
-                        filter == _StaffFilter.pending && admin.pending.isNotEmpty
+                        filter == _StaffFilter.pending &&
+                                admin.pending.isNotEmpty
                             ? '${filter.label} (${admin.pending.length})'
                             : filter.label,
                       ),
@@ -88,7 +92,10 @@ class _StaffScreenState extends State<StaffScreen> {
           if (admin.errorMessage != null)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ErrorBanner(message: admin.errorMessage!, onDismiss: admin.clearError),
+              child: ErrorBanner(
+                message: admin.errorMessage!,
+                onDismiss: admin.clearError,
+              ),
             ),
           Expanded(
             child: admin.isLoading && admin.staff.isEmpty
@@ -100,10 +107,19 @@ class _StaffScreenState extends State<StaffScreen> {
                         : ListView.separated(
                             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
                             itemCount: members.length,
-                            separatorBuilder: (_, _) => const SizedBox(height: 8),
-                            itemBuilder: (_, index) => _StaffTile(
-                              member: members[index],
-                              onTap: () => _onMemberTap(members[index]),
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: 8),
+                            // La key incluye el filtro: al cambiarlo la lista
+                            // vuelve a entrar en cascada.
+                            itemBuilder: (_, index) => FadeSlideIn(
+                              key: ValueKey(
+                                '${_filter.name}-${members[index].profile.id}',
+                              ),
+                              delay: FadeSlideIn.staggerDelay(index),
+                              child: _StaffTile(
+                                member: members[index],
+                                onTap: () => _onMemberTap(members[index]),
+                              ),
                             ),
                           ),
                   ),
@@ -136,7 +152,9 @@ class _StaffTile extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       child: ListTile(
-        leading: CircleAvatar(child: Text(member.displayName.characters.first.toUpperCase())),
+        leading: CircleAvatar(
+          child: Text(member.displayName.characters.first.toUpperCase()),
+        ),
         title: Text(member.displayName),
         subtitle: Text(subtitle),
         trailing: trailing,
@@ -165,7 +183,11 @@ class _EmptyState extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(32),
       children: [
-        Icon(Icons.inbox_outlined, size: 56, color: Theme.of(context).colorScheme.outline),
+        Icon(
+          Icons.inbox_outlined,
+          size: 56,
+          color: Theme.of(context).colorScheme.outline,
+        ),
         const SizedBox(height: 12),
         Text(message, textAlign: TextAlign.center),
       ],

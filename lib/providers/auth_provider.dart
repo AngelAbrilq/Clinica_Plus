@@ -13,7 +13,9 @@ enum AuthStatus { unknown, unauthenticated, authenticated }
 /// (refreshListenable) para redirigir según sesión y rol.
 class AuthProvider extends ChangeNotifier {
   AuthProvider(this._repository) {
-    _sessionSubscription = _repository.sessionChanges.listen((_) => _syncSession());
+    _sessionSubscription = _repository.sessionChanges.listen(
+      (_) => _syncSession(),
+    );
     _syncSession();
   }
 
@@ -71,7 +73,9 @@ class AuthProvider extends ChangeNotifier {
     try {
       final profile = await _repository.fetchCurrentProfile();
       if (profile == null) {
-        throw const AppException('No encontramos tu perfil. Contacta a la clínica.');
+        throw const AppException(
+          'No encontramos tu perfil. Contacta a la clínica.',
+        );
       }
       _profile = profile;
       _setStatus(AuthStatus.authenticated);

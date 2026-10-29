@@ -26,8 +26,9 @@ class UserProfile {
 
   bool get isPendingApproval => role == null;
 
-  String get firstName =>
-      fullName.trim().isEmpty ? email.split('@').first : fullName.trim().split(' ').first;
+  String get firstName => fullName.trim().isEmpty
+      ? email.split('@').first
+      : fullName.trim().split(' ').first;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     final roleValue = json['role'] as String?;
@@ -45,13 +46,13 @@ class UserProfile {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'email': email,
-        'full_name': fullName,
-        'role': role?.name,
-        'document_type': documentType?.dbValue,
-        'document_number': documentNumber,
-        'phone': phone,
-        'birth_date': birthDate?.toIso8601String().split('T').first,
-      };
+    'id': id,
+    'email': email,
+    'full_name': fullName,
+    'role': role?.name,
+    'document_type': documentType?.dbValue,
+    'document_number': documentNumber,
+    'phone': phone,
+    'birth_date': birthDate?.toIso8601String().split('T').first,
+  };
 }

@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
-import '../config/constants/app_constants.dart';
+import 'animations/fade_slide_in.dart';
+import 'app_logo.dart';
 
 /// Layout común de las pantallas de autenticación:
 /// centrado, ancho máximo legible y desplazable en pantallas pequeñas.
@@ -33,35 +34,35 @@ class AuthScaffold extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: colors.primaryContainer,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Icon(
-                        Icons.local_hospital_rounded,
-                        size: 40,
-                        color: colors.onPrimaryContainer,
-                        semanticLabel: AppConstants.appName,
+                  const Center(child: AppLogo()),
+                  const SizedBox(height: 16),
+                  FadeSlideIn(
+                    delay: const Duration(milliseconds: 120),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
-                  ),
                   const SizedBox(height: 6),
-                  Text(
-                    subtitle,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant),
+                  FadeSlideIn(
+                    delay: const Duration(milliseconds: 220),
+                    child: Text(
+                      subtitle,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors.onSurfaceVariant,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 28),
-                  child,
+                  FadeSlideIn(
+                    delay: const Duration(milliseconds: 340),
+                    offset: const Offset(0, 0.06),
+                    child: child,
+                  ),
                 ],
               ),
             ),

@@ -4,24 +4,27 @@ import 'package:clinica_plus/models/user_role.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Map<String, dynamic> _profileJson({String? role, Object? doctors}) => {
-      'id': 'u-1',
-      'email': 'medico@clinicaplus.co',
-      'full_name': 'Ana Ruiz',
-      'role': role,
-      'doctors': doctors,
-    };
+  'id': 'u-1',
+  'email': 'medico@clinicaplus.co',
+  'full_name': 'Ana Ruiz',
+  'role': role,
+  'doctors': doctors,
+};
 
 void main() {
   group('StaffMember.fromJson', () {
     test('lee la ficha médica embebida como objeto (PostgREST 1:1)', () {
       // Arrange
-      final json = _profileJson(role: 'doctor', doctors: {
-        'id': 7,
-        'specialty_id': 2,
-        'license_number': 'RM-777',
-        'is_active': true,
-        'specialties': {'name': 'Pediatría'},
-      });
+      final json = _profileJson(
+        role: 'doctor',
+        doctors: {
+          'id': 7,
+          'specialty_id': 2,
+          'license_number': 'RM-777',
+          'is_active': true,
+          'specialties': {'name': 'Pediatría'},
+        },
+      );
       // Act
       final member = StaffMember.fromJson(json);
       // Assert
@@ -31,9 +34,19 @@ void main() {
     });
 
     test('acepta la relación como lista (versiones antiguas de PostgREST)', () {
-      final member = StaffMember.fromJson(_profileJson(role: 'doctor', doctors: [
-        {'id': 7, 'specialty_id': 2, 'license_number': 'RM-777', 'is_active': true},
-      ]));
+      final member = StaffMember.fromJson(
+        _profileJson(
+          role: 'doctor',
+          doctors: [
+            {
+              'id': 7,
+              'specialty_id': 2,
+              'license_number': 'RM-777',
+              'is_active': true,
+            },
+          ],
+        ),
+      );
       expect(member.doctor?.id, 7);
     });
 
@@ -45,9 +58,17 @@ void main() {
     });
 
     test('médico con ficha inactiva no cuenta como médico activo', () {
-      final member = StaffMember.fromJson(_profileJson(role: 'receptionist', doctors: {
-        'id': 7, 'specialty_id': 2, 'license_number': 'RM-777', 'is_active': false,
-      }));
+      final member = StaffMember.fromJson(
+        _profileJson(
+          role: 'receptionist',
+          doctors: {
+            'id': 7,
+            'specialty_id': 2,
+            'license_number': 'RM-777',
+            'is_active': false,
+          },
+        ),
+      );
       expect(member.isActiveDoctor, isFalse);
     });
 
@@ -77,7 +98,11 @@ void main() {
   group('NewDoctorSchedule.toJson', () {
     test('usa los nombres de columna de la BD', () {
       const schedule = NewDoctorSchedule(
-        doctorId: 7, siteId: 1, weekday: 3, startTime: '14:00', endTime: '18:00',
+        doctorId: 7,
+        siteId: 1,
+        weekday: 3,
+        startTime: '14:00',
+        endTime: '18:00',
       );
       expect(schedule.toJson(), {
         'doctor_id': 7,

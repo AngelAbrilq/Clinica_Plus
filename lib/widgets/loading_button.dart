@@ -15,15 +15,15 @@ class LoadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 52,
-        child: FilledButton(
-          onPressed: isLoading ? null : onPressed,
-          child: isLoading
-              ? const SizedBox.square(
-                  dimension: 22,
-                  child: CircularProgressIndicator(strokeWidth: 2.5),
-                )
-              : Text(label, style: const TextStyle(fontSize: 16)),
-        ),
-      );
+    height: 52,
+    child: FilledButton(
+      onPressed: isLoading ? null : onPressed,
+      child: isLoading
+          ? const SizedBox.square(
+              dimension: 22,
+              child: CircularProgressIndicator(strokeWidth: 2.5),
+            )
+          : Text(label, style: const TextStyle(fontSize: 16)),
+    ),
+  );
 }

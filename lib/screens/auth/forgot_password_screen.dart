@@ -27,7 +27,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   Future<void> _submit() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    final sent = await context.read<AuthProvider>().sendPasswordReset(_emailController.text);
+    final sent = await context.read<AuthProvider>().sendPasswordReset(
+      _emailController.text,
+    );
     if (mounted && sent) setState(() => _emailSent = true);
   }
 
@@ -55,7 +57,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (auth.errorMessage != null)
-                    ErrorBanner(message: auth.errorMessage!, onDismiss: auth.clearError),
+                    ErrorBanner(
+                      message: auth.errorMessage!,
+                      onDismiss: auth.clearError,
+                    ),
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,

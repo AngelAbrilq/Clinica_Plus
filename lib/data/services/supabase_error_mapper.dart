@@ -19,7 +19,9 @@ abstract final class SupabaseErrorMapper {
       return await action();
     } on PostgrestException catch (error) {
       if (kDebugMode) {
-        debugPrint('[DB] code=${error.code} msg=${error.message} details=${error.details}');
+        debugPrint(
+          '[DB] code=${error.code} msg=${error.message} details=${error.details}',
+        );
       }
       throw AppException(_messageFor(error, messagesByCode), cause: error);
     } on AppException {
@@ -33,7 +35,10 @@ abstract final class SupabaseErrorMapper {
     }
   }
 
-  static String _messageFor(PostgrestException error, Map<String, String> custom) {
+  static String _messageFor(
+    PostgrestException error,
+    Map<String, String> custom,
+  ) {
     final code = error.code ?? '';
     if (custom.containsKey(code)) return custom[code]!;
     if (error.message.contains('row-level security')) {

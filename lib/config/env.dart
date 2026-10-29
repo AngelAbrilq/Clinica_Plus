@@ -2,8 +2,9 @@
 /// `--dart-define-from-file=env.json`. Nunca se versionan.
 abstract final class Env {
   static const String supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-  static const String supabaseAnonKey =
-      String.fromEnvironment('SUPABASE_ANON_KEY');
+  static const String supabaseAnonKey = String.fromEnvironment(
+    'SUPABASE_ANON_KEY',
+  );
   static const String staffEmailDomain = String.fromEnvironment(
     'STAFF_EMAIL_DOMAIN',
     defaultValue: 'clinicaplus.co',
@@ -22,7 +23,8 @@ abstract final class Env {
       );
     }
     final uri = Uri.tryParse(supabaseUrl);
-    final isValidUrl = uri != null &&
+    final isValidUrl =
+        uri != null &&
         uri.scheme == 'https' &&
         uri.host.isNotEmpty &&
         (uri.path.isEmpty || uri.path == '/');

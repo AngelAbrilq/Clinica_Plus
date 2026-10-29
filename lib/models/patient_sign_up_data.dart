@@ -20,11 +20,11 @@ class PatientSignUpData {
 
   /// Metadatos que lee el trigger `handle_new_user` en Supabase.
   Map<String, dynamic> toMetadata() => {
-        'full_name': fullName.trim(),
-        'document_type': documentType.dbValue,
-        'document_number': documentNumber.trim(),
-        'phone': phone.trim(),
-      };
+    'full_name': fullName.trim(),
+    'document_type': documentType.dbValue,
+    'document_number': documentNumber.trim(),
+    'phone': phone.trim(),
+  };
 }
 
 /// Resultado del registro.

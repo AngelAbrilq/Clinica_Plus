@@ -47,15 +47,24 @@ void main() {
 
   group('Validators.isStaffEmail', () {
     test('detecta el dominio de la clínica sin importar mayúsculas', () {
-      expect(Validators.isStaffEmail('Medico@ClinicaPlus.co', 'clinicaplus.co'), isTrue);
+      expect(
+        Validators.isStaffEmail('Medico@ClinicaPlus.co', 'clinicaplus.co'),
+        isTrue,
+      );
     });
 
     test('un correo personal no es del personal', () {
-      expect(Validators.isStaffEmail('medico@gmail.com', 'clinicaplus.co'), isFalse);
+      expect(
+        Validators.isStaffEmail('medico@gmail.com', 'clinicaplus.co'),
+        isFalse,
+      );
     });
 
     test('no confunde subdominios parecidos', () {
-      expect(Validators.isStaffEmail('x@fakeclinicaplus.co', 'clinicaplus.co'), isFalse);
+      expect(
+        Validators.isStaffEmail('x@fakeclinicaplus.co', 'clinicaplus.co'),
+        isFalse,
+      );
     });
   });
 

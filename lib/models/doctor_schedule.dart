@@ -57,10 +57,10 @@ class NewDoctorSchedule {
   final String endTime;
 
   Map<String, dynamic> toJson() => {
-        'doctor_id': doctorId,
-        'site_id': siteId,
-        'weekday': weekday,
-        'start_time': startTime,
-        'end_time': endTime,
-      };
+    'doctor_id': doctorId,
+    'site_id': siteId,
+    'weekday': weekday,
+    'start_time': startTime,
+    'end_time': endTime,
+  };
 }

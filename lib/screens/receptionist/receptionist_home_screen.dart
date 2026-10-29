@@ -7,12 +7,12 @@ class ReceptionistHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const RoleHomePlaceholder(
-        title: 'Recepción',
-        icon: Icons.support_agent_rounded,
-        upcomingModules: [
-          'Citas del día por sede',
-          'Check-in con escáner QR',
-          'Reasignar citas y marcar inasistencias',
-        ],
-      );
+    title: 'Recepción',
+    icon: Icons.support_agent_rounded,
+    upcomingModules: [
+      'Citas del día por sede',
+      'Check-in con escáner QR',
+      'Reasignar citas y marcar inasistencias',
+    ],
+  );
 }

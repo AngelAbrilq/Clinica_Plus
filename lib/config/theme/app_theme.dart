@@ -12,14 +12,14 @@ abstract final class AppTheme {
   );
 
   static ThemeData get light => FlexThemeData.light(
-        scheme: _scheme,
-        subThemesData: _subThemes,
-        fontFamily: GoogleFonts.nunito().fontFamily,
-      );
+    scheme: _scheme,
+    subThemesData: _subThemes,
+    fontFamily: GoogleFonts.nunito().fontFamily,
+  );
 
   static ThemeData get dark => FlexThemeData.dark(
-        scheme: _scheme,
-        subThemesData: _subThemes,
-        fontFamily: GoogleFonts.nunito().fontFamily,
-      );
+    scheme: _scheme,
+    subThemesData: _subThemes,
+    fontFamily: GoogleFonts.nunito().fontFamily,
+  );
 }

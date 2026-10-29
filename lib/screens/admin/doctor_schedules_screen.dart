@@ -30,7 +30,10 @@ class _DoctorSchedulesScreenState extends State<DoctorSchedulesScreen> {
   }
 
   Future<void> _addSchedule() async {
-    final schedule = await showAddScheduleDialog(context, doctorId: widget.doctorId);
+    final schedule = await showAddScheduleDialog(
+      context,
+      doctorId: widget.doctorId,
+    );
     if (schedule == null || !mounted) return;
     final saved = await context.read<AdminProvider>().addSchedule(schedule);
     if (saved && mounted) {
@@ -86,14 +89,21 @@ class _DoctorSchedulesScreenState extends State<DoctorSchedulesScreen> {
           if (member != null && doctor != null)
             Card(
               child: ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.medical_services_rounded)),
+                leading: const CircleAvatar(
+                  child: Icon(Icons.medical_services_rounded),
+                ),
                 title: Text(member.displayName),
-                subtitle: Text('${doctor.specialtyName} · RM ${doctor.licenseNumber}'),
+                subtitle: Text(
+                  '${doctor.specialtyName} · RM ${doctor.licenseNumber}',
+                ),
               ),
             ),
           const SizedBox(height: 12),
           if (admin.errorMessage != null)
-            ErrorBanner(message: admin.errorMessage!, onDismiss: admin.clearError),
+            ErrorBanner(
+              message: admin.errorMessage!,
+              onDismiss: admin.clearError,
+            ),
           if (admin.isLoading && admin.schedules.isEmpty)
             const Padding(
               padding: EdgeInsets.all(32),
@@ -123,7 +133,9 @@ class _DoctorSchedulesScreenState extends State<DoctorSchedulesScreen> {
     List<DoctorSchedule> schedules,
     ThemeData theme,
   ) {
-    final daySchedules = schedules.where((item) => item.weekday == weekday).toList();
+    final daySchedules = schedules
+        .where((item) => item.weekday == weekday)
+        .toList();
     if (daySchedules.isEmpty) return const [];
     return [
       Padding(
