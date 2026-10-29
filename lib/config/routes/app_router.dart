@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../screens/admin/admin_home_screen.dart';
+import '../../screens/admin/doctor_schedules_screen.dart';
+import '../../screens/admin/staff_screen.dart';
 import '../../screens/auth/forgot_password_screen.dart';
 import '../../screens/auth/login_screen.dart';
 import '../../screens/auth/pending_approval_screen.dart';
@@ -38,6 +40,16 @@ GoRouter buildAppRouter(AuthProvider auth) => GoRouter(
           builder: (_, _) => const ReceptionistHomeScreen(),
         ),
         GoRoute(path: AppRoutes.adminHome, builder: (_, _) => const AdminHomeScreen()),
+        GoRoute(path: AppRoutes.adminStaff, builder: (_, _) => const StaffScreen()),
+        GoRoute(
+          path: AppRoutes.adminDoctorSchedules,
+          builder: (_, state) {
+            final doctorId = int.tryParse(state.pathParameters['doctorId'] ?? '');
+            return doctorId == null
+                ? const StaffScreen()
+                : DoctorSchedulesScreen(doctorId: doctorId);
+          },
+        ),
       ],
     );
 

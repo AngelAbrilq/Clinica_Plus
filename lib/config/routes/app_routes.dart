@@ -11,6 +11,10 @@ abstract final class AppRoutes {
   static const String doctorHome = '/doctor';
   static const String receptionHome = '/reception';
   static const String adminHome = '/admin';
+  static const String adminStaff = '/admin/staff';
+  static const String adminDoctorSchedules = '/admin/doctors/:doctorId';
+
+  static String doctorSchedulesPath(int doctorId) => '/admin/doctors/$doctorId';
 
   static const Set<String> publicRoutes = {login, register, forgotPassword};
 

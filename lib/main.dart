@@ -10,7 +10,9 @@ import 'config/env.dart';
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'data/local/secure_session_storage.dart';
+import 'data/repositories/supabase_admin_repository.dart';
 import 'data/repositories/supabase_auth_repository.dart';
+import 'providers/admin_provider.dart';
 import 'providers/auth_provider.dart';
 
 Future<void> main() async {
@@ -47,6 +49,10 @@ class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           ChangeNotifierProvider<AuthProvider>.value(value: widget.authProvider),
+          // Lazy: solo se crea cuando un admin abre el módulo.
+          ChangeNotifierProvider<AdminProvider>(
+            create: (_) => AdminProvider(SupabaseAdminRepository(Supabase.instance.client)),
+          ),
         ],
         child: MaterialApp.router(
           title: AppConstants.appName,
