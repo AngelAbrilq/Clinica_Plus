@@ -9,6 +9,7 @@ abstract final class AppRoutes {
   static const String pendingApproval = '/pending';
   static const String patientHome = '/patient';
   static const String patientBook = '/patient/book';
+  static const String patientRecords = '/patient/records';
   static const String patientAppointments = '/patient/appointments';
   static const String patientAppointmentDetail =
       '/patient/appointments/:appointmentId';
@@ -18,6 +19,12 @@ abstract final class AppRoutes {
     bool isNew = false,
   }) => '/patient/appointments/$appointmentId${isNew ? '?new=1' : ''}';
   static const String doctorHome = '/doctor';
+  static const String doctorAgenda = '/doctor/agenda';
+  static const String doctorConsultation =
+      '/doctor/consultation/:appointmentId';
+
+  static String doctorConsultationPath(int appointmentId) =>
+      '/doctor/consultation/$appointmentId';
   static const String receptionHome = '/reception';
   static const String receptionAgenda = '/reception/agenda';
   static const String receptionCheckIn = '/reception/check-in';

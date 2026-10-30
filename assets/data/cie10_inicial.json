@@ -1,0 +1,362 @@
+{
+ "version": 1,
+ "source": "Lista inicial de atención primaria. Reemplazar por la tabla oficial CIE-10 de MinSalud/SISPRO.",
+ "codes": [
+  {
+   "code": "A08.4",
+   "description": "Infección intestinal viral, sin otra especificación"
+  },
+  {
+   "code": "A09",
+   "description": "Diarrea y gastroenteritis de presunto origen infeccioso"
+  },
+  {
+   "code": "A90",
+   "description": "Fiebre del dengue [dengue clásico]"
+  },
+  {
+   "code": "A91",
+   "description": "Fiebre del dengue hemorrágico"
+  },
+  {
+   "code": "B01.9",
+   "description": "Varicela sin complicaciones"
+  },
+  {
+   "code": "B34.9",
+   "description": "Infección viral, no especificada"
+  },
+  {
+   "code": "B35.4",
+   "description": "Tiña del cuerpo [tinea corporis]"
+  },
+  {
+   "code": "B37.3",
+   "description": "Candidiasis de la vulva y de la vagina"
+  },
+  {
+   "code": "B82.9",
+   "description": "Parasitosis intestinal, sin otra especificación"
+  },
+  {
+   "code": "B85.0",
+   "description": "Pediculosis debida a Pediculus humanus capitis"
+  },
+  {
+   "code": "B86",
+   "description": "Escabiosis"
+  },
+  {
+   "code": "D50.9",
+   "description": "Anemia por deficiencia de hierro sin otra especificación"
+  },
+  {
+   "code": "E03.9",
+   "description": "Hipotiroidismo, no especificado"
+  },
+  {
+   "code": "E04.9",
+   "description": "Bocio no tóxico, no especificado"
+  },
+  {
+   "code": "E10.9",
+   "description": "Diabetes mellitus insulinodependiente, sin mención de complicación"
+  },
+  {
+   "code": "E11.9",
+   "description": "Diabetes mellitus no insulinodependiente, sin mención de complicación"
+  },
+  {
+   "code": "E55.9",
+   "description": "Deficiencia de vitamina D, no especificada"
+  },
+  {
+   "code": "E66.9",
+   "description": "Obesidad, no especificada"
+  },
+  {
+   "code": "E78.5",
+   "description": "Hiperlipidemia no especificada"
+  },
+  {
+   "code": "F32.9",
+   "description": "Episodio depresivo, no especificado"
+  },
+  {
+   "code": "F41.1",
+   "description": "Trastorno de ansiedad generalizada"
+  },
+  {
+   "code": "F41.9",
+   "description": "Trastorno de ansiedad, no especificado"
+  },
+  {
+   "code": "F43.2",
+   "description": "Trastornos de adaptación"
+  },
+  {
+   "code": "F51.0",
+   "description": "Insomnio no orgánico"
+  },
+  {
+   "code": "F90.0",
+   "description": "Perturbación de la actividad y de la atención"
+  },
+  {
+   "code": "G43.9",
+   "description": "Migraña, no especificada"
+  },
+  {
+   "code": "G44.2",
+   "description": "Cefalea debida a tensión"
+  },
+  {
+   "code": "H10.9",
+   "description": "Conjuntivitis, no especificada"
+  },
+  {
+   "code": "H52.1",
+   "description": "Miopía"
+  },
+  {
+   "code": "H61.2",
+   "description": "Cerumen impactado"
+  },
+  {
+   "code": "H66.9",
+   "description": "Otitis media, no especificada"
+  },
+  {
+   "code": "I10",
+   "description": "Hipertensión esencial (primaria)"
+  },
+  {
+   "code": "I25.9",
+   "description": "Enfermedad isquémica crónica del corazón, no especificada"
+  },
+  {
+   "code": "I83.9",
+   "description": "Venas varicosas de los miembros inferiores sin úlcera ni inflamación"
+  },
+  {
+   "code": "J00",
+   "description": "Rinofaringitis aguda [resfriado común]"
+  },
+  {
+   "code": "J01.9",
+   "description": "Sinusitis aguda, no especificada"
+  },
+  {
+   "code": "J02.9",
+   "description": "Faringitis aguda, no especificada"
+  },
+  {
+   "code": "J03.9",
+   "description": "Amigdalitis aguda, no especificada"
+  },
+  {
+   "code": "J06.9",
+   "description": "Infección aguda de las vías respiratorias superiores, no especificada"
+  },
+  {
+   "code": "J11.1",
+   "description": "Influenza con otras manifestaciones respiratorias, virus no identificado"
+  },
+  {
+   "code": "J18.9",
+   "description": "Neumonía, no especificada"
+  },
+  {
+   "code": "J20.9",
+   "description": "Bronquitis aguda, no especificada"
+  },
+  {
+   "code": "J30.4",
+   "description": "Rinitis alérgica, no especificada"
+  },
+  {
+   "code": "J32.9",
+   "description": "Sinusitis crónica, no especificada"
+  },
+  {
+   "code": "J44.9",
+   "description": "Enfermedad pulmonar obstructiva crónica, no especificada"
+  },
+  {
+   "code": "J45.9",
+   "description": "Asma, no especificada"
+  },
+  {
+   "code": "K02.9",
+   "description": "Caries dental, no especificada"
+  },
+  {
+   "code": "K03.6",
+   "description": "Depósitos [acreciones] en los dientes"
+  },
+  {
+   "code": "K04.0",
+   "description": "Pulpitis"
+  },
+  {
+   "code": "K05.1",
+   "description": "Gingivitis crónica"
+  },
+  {
+   "code": "K21.9",
+   "description": "Enfermedad del reflujo gastroesofágico sin esofagitis"
+  },
+  {
+   "code": "K29.7",
+   "description": "Gastritis, no especificada"
+  },
+  {
+   "code": "K30",
+   "description": "Dispepsia"
+  },
+  {
+   "code": "K58.9",
+   "description": "Síndrome del colon irritable sin diarrea"
+  },
+  {
+   "code": "K59.0",
+   "description": "Constipación"
+  },
+  {
+   "code": "L01.0",
+   "description": "Impétigo [cualquier sitio anatómico] [cualquier organismo]"
+  },
+  {
+   "code": "L20.9",
+   "description": "Dermatitis atópica, no especificada"
+  },
+  {
+   "code": "L30.9",
+   "description": "Dermatitis, no especificada"
+  },
+  {
+   "code": "L50.9",
+   "description": "Urticaria, no especificada"
+  },
+  {
+   "code": "L70.0",
+   "description": "Acné vulgar"
+  },
+  {
+   "code": "M17.9",
+   "description": "Gonartrosis, no especificada"
+  },
+  {
+   "code": "M25.5",
+   "description": "Dolor en articulación"
+  },
+  {
+   "code": "M54.2",
+   "description": "Cervicalgia"
+  },
+  {
+   "code": "M54.5",
+   "description": "Lumbago no especificado"
+  },
+  {
+   "code": "M79.1",
+   "description": "Mialgia"
+  },
+  {
+   "code": "M81.9",
+   "description": "Osteoporosis, no especificada"
+  },
+  {
+   "code": "N18.9",
+   "description": "Insuficiencia renal crónica, no especificada"
+  },
+  {
+   "code": "N30.0",
+   "description": "Cistitis aguda"
+  },
+  {
+   "code": "N39.0",
+   "description": "Infección de vías urinarias, sitio no especificado"
+  },
+  {
+   "code": "N76.0",
+   "description": "Vaginitis aguda"
+  },
+  {
+   "code": "N94.6",
+   "description": "Dismenorrea, no especificada"
+  },
+  {
+   "code": "R05",
+   "description": "Tos"
+  },
+  {
+   "code": "R07.4",
+   "description": "Dolor en el pecho, no especificado"
+  },
+  {
+   "code": "R10.4",
+   "description": "Otros dolores abdominales y los no especificados"
+  },
+  {
+   "code": "R11",
+   "description": "Náusea y vómito"
+  },
+  {
+   "code": "R42",
+   "description": "Mareo y desvanecimiento"
+  },
+  {
+   "code": "R50.9",
+   "description": "Fiebre, no especificada"
+  },
+  {
+   "code": "R51",
+   "description": "Cefalea"
+  },
+  {
+   "code": "R53",
+   "description": "Malestar y fatiga"
+  },
+  {
+   "code": "S93.4",
+   "description": "Esguince y torcedura del tobillo"
+  },
+  {
+   "code": "T78.4",
+   "description": "Alergia no especificada"
+  },
+  {
+   "code": "Z00.0",
+   "description": "Examen médico general"
+  },
+  {
+   "code": "Z00.1",
+   "description": "Control de salud de rutina del niño"
+  },
+  {
+   "code": "Z01.2",
+   "description": "Examen odontológico"
+  },
+  {
+   "code": "Z30.0",
+   "description": "Consejo y asesoramiento general sobre la anticoncepción"
+  },
+  {
+   "code": "Z32.1",
+   "description": "Embarazo confirmado"
+  },
+  {
+   "code": "Z34.9",
+   "description": "Supervisión de embarazo normal no especificado"
+  },
+  {
+   "code": "Z71.3",
+   "description": "Consejo y supervisión dietéticos"
+  },
+  {
+   "code": "Z76.0",
+   "description": "Consulta para repetición de receta"
+  }
+ ]
+}

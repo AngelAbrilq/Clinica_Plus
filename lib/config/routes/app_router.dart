@@ -10,9 +10,12 @@ import '../../screens/auth/forgot_password_screen.dart';
 import '../../screens/auth/login_screen.dart';
 import '../../screens/auth/pending_approval_screen.dart';
 import '../../screens/auth/register_screen.dart';
+import '../../screens/doctor/consultation_screen.dart';
+import '../../screens/doctor/doctor_agenda_screen.dart';
 import '../../screens/doctor/doctor_home_screen.dart';
 import '../../screens/patient/appointment_detail_screen.dart';
 import '../../screens/patient/book_appointment_screen.dart';
+import '../../screens/patient/medical_records_screen.dart';
 import '../../screens/patient/my_appointments_screen.dart';
 import '../../screens/patient/patient_home_screen.dart';
 import '../../screens/receptionist/check_in_scanner_screen.dart';
@@ -97,6 +100,24 @@ GoRouter buildAppRouter({
           startup,
           AppRoutes.doctorHome,
           (_) => const DoctorHomeScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.doctorAgenda,
+          (_) => const DoctorAgendaScreen(),
+        ),
+        _animatedRoute(startup, AppRoutes.doctorConsultation, (state) {
+          final appointmentId = int.tryParse(
+            state.pathParameters['appointmentId'] ?? '',
+          );
+          return appointmentId == null
+              ? const DoctorAgendaScreen()
+              : ConsultationScreen(appointmentId: appointmentId);
+        }),
+        _animatedRoute(
+          startup,
+          AppRoutes.patientRecords,
+          (_) => const MedicalRecordsScreen(),
         ),
         _animatedRoute(
           startup,

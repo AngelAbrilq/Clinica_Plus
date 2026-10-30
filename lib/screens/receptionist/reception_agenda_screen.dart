@@ -10,6 +10,7 @@ import '../../providers/reception_provider.dart';
 import '../../utils/app_exception.dart';
 import '../../utils/date_formatters.dart';
 import '../../widgets/appointment_status_chip.dart';
+import '../../widgets/date_navigator.dart';
 import '../../widgets/error_banner.dart';
 import 'widgets/check_in_result_sheet.dart';
 
@@ -143,43 +144,12 @@ class _ReceptionAgendaScreenState extends State<ReceptionAgendaScreen> {
                     provider.selectSite(selection.first),
               ),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                IconButton(
-                  tooltip: 'Día anterior',
-                  onPressed: () => provider.shiftDate(-1),
-                  icon: const Icon(Icons.chevron_left_rounded),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        provider.isToday
-                            ? 'Hoy'
-                            : DateFormatters.weekdayShort(provider.date),
-                        style: theme.textTheme.labelLarge,
-                      ),
-                      Text(
-                        DateFormatters.longDate(provider.date),
-                        style: theme.textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  tooltip: 'Día siguiente',
-                  onPressed: () => provider.shiftDate(1),
-                  icon: const Icon(Icons.chevron_right_rounded),
-                ),
-              ],
+            DateNavigator(
+              date: provider.date,
+              isToday: provider.isToday,
+              onShift: provider.shiftDate,
+              onToday: provider.goToToday,
             ),
-            if (!provider.isToday)
-              Center(
-                child: TextButton(
-                  onPressed: provider.goToToday,
-                  child: const Text('Volver a hoy'),
-                ),
-              ),
             const SizedBox(height: 8),
             Row(
               children: [

@@ -43,10 +43,10 @@ void main() {
   });
 
   group('Navegación por rol', () {
-    test('paciente: Inicio + Citas', () {
+    test('paciente: Inicio + Citas + Historia', () {
       final labels = RoleShell.destinationsFor(UserRole.patient)
           .map((d) => d.label);
-      expect(labels, ['Inicio', 'Citas']);
+      expect(labels, ['Inicio', 'Citas', 'Historia']);
     });
 
     test('admin: Inicio + Personal', () {
