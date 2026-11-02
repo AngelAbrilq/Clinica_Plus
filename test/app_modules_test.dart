@@ -49,10 +49,10 @@ void main() {
       expect(labels, ['Inicio', 'Citas', 'Historia']);
     });
 
-    test('admin: Inicio + Personal', () {
+    test('admin: Inicio + Personal + Indicadores', () {
       final routes = RoleShell.destinationsFor(UserRole.admin)
           .map((d) => d.route);
-      expect(routes, [AppRoutes.adminHome, AppRoutes.adminStaff]);
+      expect(routes, [AppRoutes.adminHome, AppRoutes.adminStaff, AppRoutes.adminMetrics]);
     });
 
     test('un módulo "próximamente" nunca aparece en la navegación', () {

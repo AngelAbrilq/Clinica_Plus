@@ -4,6 +4,9 @@ import 'package:material_ui/material_ui.dart';
 import '../../providers/app_startup_notifier.dart';
 import '../../providers/auth_provider.dart';
 import '../../screens/admin/admin_home_screen.dart';
+import '../../screens/admin/audit_screen.dart';
+import '../../screens/admin/catalogs_screen.dart';
+import '../../screens/admin/metrics_screen.dart';
 import '../../screens/admin/doctor_schedules_screen.dart';
 import '../../screens/admin/staff_screen.dart';
 import '../../screens/auth/forgot_password_screen.dart';
@@ -149,6 +152,21 @@ GoRouter buildAppRouter({
           startup,
           AppRoutes.profile,
           (_) => const ProfileScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.adminCatalogs,
+          (_) => const CatalogsScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.adminMetrics,
+          (_) => const MetricsScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.adminAudit,
+          (_) => const AuditScreen(),
         ),
         _animatedRoute(startup, AppRoutes.adminDoctorSchedules, (state) {
           final doctorId = int.tryParse(state.pathParameters['doctorId'] ?? '');

@@ -114,7 +114,7 @@ abstract final class AppModules {
       description: 'Direcciones, duración de consultas y estado',
       icon: Icons.apartment_outlined,
       roles: {UserRole.admin},
-      status: ModuleStatus.comingSoon,
+      route: AppRoutes.adminCatalogs,
     ),
     AppModule(
       id: 'admin.metrics',
@@ -122,7 +122,9 @@ abstract final class AppModules {
       description: 'Ocupación, cancelaciones e inasistencias',
       icon: Icons.insights_outlined,
       roles: {UserRole.admin},
-      status: ModuleStatus.comingSoon,
+      selectedIcon: Icons.insights_rounded,
+      route: AppRoutes.adminMetrics,
+      navigationLabel: 'Indicadores',
     ),
     AppModule(
       id: 'admin.audit',
@@ -130,7 +132,7 @@ abstract final class AppModules {
       description: 'Quién consultó o modificó historias clínicas',
       icon: Icons.policy_outlined,
       roles: {UserRole.admin},
-      status: ModuleStatus.comingSoon,
+      route: AppRoutes.adminAudit,
     ),
 
     // ---------------- Todos ----------------

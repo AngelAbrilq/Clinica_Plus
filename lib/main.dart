@@ -18,13 +18,18 @@ import 'data/repositories/in_memory_cie10_repository.dart';
 import 'data/repositories/supabase_admin_repository.dart';
 import 'data/repositories/supabase_appointment_repository.dart';
 import 'data/repositories/supabase_auth_repository.dart';
+import 'data/repositories/supabase_catalog_admin_repository.dart';
+import 'data/repositories/supabase_insights_repository.dart';
 import 'data/repositories/supabase_doctor_repository.dart';
 import 'data/repositories/supabase_reception_repository.dart';
 import 'providers/admin_provider.dart';
 import 'providers/app_startup_notifier.dart';
 import 'providers/appointment_provider.dart';
+import 'providers/audit_provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/catalog_admin_provider.dart';
 import 'providers/doctor_provider.dart';
+import 'providers/metrics_provider.dart';
 import 'providers/reception_provider.dart';
 
 Future<void> main() async {
@@ -123,6 +128,19 @@ class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
       ChangeNotifierProvider<AdminProvider>(
         create: (_) =>
             AdminProvider(SupabaseAdminRepository(Supabase.instance.client)),
+      ),
+      ChangeNotifierProvider<CatalogAdminProvider>(
+        create: (_) => CatalogAdminProvider(
+          SupabaseCatalogAdminRepository(Supabase.instance.client),
+        ),
+      ),
+      ChangeNotifierProvider<MetricsProvider>(
+        create: (_) =>
+            MetricsProvider(SupabaseInsightsRepository(Supabase.instance.client)),
+      ),
+      ChangeNotifierProvider<AuditProvider>(
+        create: (_) =>
+            AuditProvider(SupabaseInsightsRepository(Supabase.instance.client)),
       ),
     ],
     child: MaterialApp.router(

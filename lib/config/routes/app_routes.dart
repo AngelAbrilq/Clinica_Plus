@@ -30,6 +30,9 @@ abstract final class AppRoutes {
   static const String receptionCheckIn = '/reception/check-in';
   static const String adminHome = '/admin';
   static const String adminStaff = '/admin/staff';
+  static const String adminCatalogs = '/admin/catalogs';
+  static const String adminMetrics = '/admin/metrics';
+  static const String adminAudit = '/admin/audit';
   static const String adminDoctorSchedules = '/admin/doctors/:doctorId';
 
   static String doctorSchedulesPath(int doctorId) => '/admin/doctors/$doctorId';
