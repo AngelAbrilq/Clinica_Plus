@@ -58,4 +58,15 @@ abstract final class Validators {
   /// True si el correo pertenece al dominio del personal de la clínica.
   static bool isStaffEmail(String email, String staffDomain) =>
       email.trim().toLowerCase().endsWith('@${staffDomain.toLowerCase()}');
+
+  /// Fecha de nacimiento opcional: no futura y máximo 120 años atrás.
+  static String? birthDate(DateTime? value, {DateTime? now}) {
+    if (value == null) return null;
+    final today = now ?? DateTime.now();
+    if (value.isAfter(today)) return 'La fecha no puede ser futura';
+    if (value.isBefore(DateTime(today.year - 120, today.month, today.day))) {
+      return 'Revisa el año de nacimiento';
+    }
+    return null;
+  }
 }

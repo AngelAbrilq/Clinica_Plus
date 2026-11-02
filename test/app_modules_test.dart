@@ -64,13 +64,21 @@ void main() {
       }
     });
 
-    test('el perfil (compartido) aparece como próximamente para todos', () {
+    test('el perfil (compartido) está disponible para todos los roles', () {
       for (final role in UserRole.values) {
         expect(
-          AppModules.comingSoonFor(role).map((module) => module.id),
+          AppModules.availableFor(role).map((module) => module.id),
           contains('shared.profile'),
         );
       }
+    });
+
+    test('las rutas compartidas son accesibles para cualquier rol', () {
+      for (final role in UserRole.values) {
+        expect(AppRoutes.canAccess(AppRoutes.profile, role), isTrue);
+      }
+      // ...pero las de un rol siguen cerradas para los demás.
+      expect(AppRoutes.canAccess(AppRoutes.adminStaff, UserRole.patient), isFalse);
     });
   });
 }

@@ -36,6 +36,10 @@ abstract final class AppRoutes {
 
   static const Set<String> publicRoutes = {login, register, forgotPassword};
 
+  /// Rutas disponibles para cualquier usuario autenticado, sin importar su rol.
+  static const String profile = '/profile';
+  static const Set<String> sharedRoutes = {profile};
+
   /// Pantalla inicial según el rol (null = pendiente de aprobación).
   static String homeFor(UserRole? role) => switch (role) {
     UserRole.patient => patientHome,
@@ -47,5 +51,7 @@ abstract final class AppRoutes {
 
   /// Un usuario solo navega dentro de la sección de su rol.
   static bool canAccess(String location, UserRole? role) =>
-      location == homeFor(role) || location.startsWith('${homeFor(role)}/');
+      sharedRoutes.contains(location) ||
+      location == homeFor(role) ||
+      location.startsWith('${homeFor(role)}/');
 }

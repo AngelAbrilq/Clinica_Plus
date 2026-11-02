@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../data/repositories/auth_repository.dart';
 import '../models/patient_sign_up_data.dart';
+import '../models/profile_update.dart';
 import '../models/user_profile.dart';
 import '../utils/app_exception.dart';
 
@@ -55,6 +56,29 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> signOut() async {
     await _run(_repository.signOut);
+  }
+
+  /// Guarda el perfil. Devuelve `true` si se guardó (ver [errorMessage]).
+  Future<bool> updateProfile(ProfileUpdate update) async {
+    final updated = await _run(() => _repository.updateProfile(update));
+    if (updated == null) return false;
+    _profile = updated;
+    notifyListeners();
+    return true;
+  }
+
+  Future<bool> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final result = await _run(() async {
+      await _repository.changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+      return true;
+    });
+    return result ?? false;
   }
 
   void clearError() {

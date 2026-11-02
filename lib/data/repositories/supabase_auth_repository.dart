@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/patient_sign_up_data.dart';
+import '../../models/profile_update.dart';
 import '../../models/user_profile.dart';
 import '../../utils/app_exception.dart';
 import 'auth_repository.dart';
@@ -64,6 +65,60 @@ class SupabaseAuthRepository implements AuthRepository {
     return row == null ? null : UserProfile.fromJson(row);
   });
 
+  @override
+  Future<UserProfile> updateProfile(ProfileUpdate update) => _guard(() async {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) {
+      throw const AppException('Tu sesión expiró. Inicia sesión de nuevo.');
+    }
+    try {
+      final row = await _client
+          .from('profiles')
+          .update(update.toJson())
+          .eq('id', userId)
+          .select()
+          .single();
+      return UserProfile.fromJson(row);
+    } on PostgrestException catch (error) {
+      // 23505: el par (tipo, número de documento) ya pertenece a otra cuenta.
+      if (error.code == '23505') {
+        throw AppException(
+          'Ese documento ya está registrado en otra cuenta.',
+          cause: error,
+        );
+      }
+      if (error.code == '23514') {
+        throw AppException(
+          'Revisa el documento, el celular y la fecha de nacimiento.',
+          cause: error,
+        );
+      }
+      rethrow;
+    }
+  });
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) => _guard(() async {
+    final email = _client.auth.currentUser?.email;
+    if (email == null) {
+      throw const AppException('Tu sesión expiró. Inicia sesión de nuevo.');
+    }
+    // Reautenticación: evita que alguien con el celular desbloqueado
+    // cambie la contraseña sin conocer la actual.
+    try {
+      await _client.auth.signInWithPassword(
+        email: email,
+        password: currentPassword,
+      );
+    } on AuthException catch (error) {
+      throw AppException('La contraseña actual no es correcta.', cause: error);
+    }
+    await _client.auth.updateUser(UserAttributes(password: newPassword));
+  });
+
   /// Ejecuta [action] traduciendo errores técnicos a [AppException].
   Future<T> _guard<T>(Future<T> Function() action) async {
     try {
@@ -81,6 +136,8 @@ class SupabaseAuthRepository implements AuthRepository {
         'No pudimos cargar tus datos. Intenta de nuevo.',
         cause: error,
       );
+    } on AppException {
+      rethrow; // ya trae un mensaje pensado para el usuario
     } catch (error) {
       _logDebug('Unexpected error: $error');
       throw AppException(
@@ -110,6 +167,9 @@ class SupabaseAuthRepository implements AuthRepository {
     }
     if (code.contains('rate_limit') || error.statusCode == '429') {
       return 'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.';
+    }
+    if (code == 'same_password') {
+      return 'La nueva contraseña debe ser distinta de la actual.';
     }
     if (code == 'weak_password') {
       return 'La contraseña es muy débil. Usa letras, números y al menos 8 caracteres.';

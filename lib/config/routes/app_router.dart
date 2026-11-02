@@ -21,6 +21,7 @@ import '../../screens/patient/patient_home_screen.dart';
 import '../../screens/receptionist/check_in_scanner_screen.dart';
 import '../../screens/receptionist/reception_agenda_screen.dart';
 import '../../screens/receptionist/receptionist_home_screen.dart';
+import '../../screens/shared/profile_screen.dart';
 import '../../screens/shared/splash_screen.dart';
 import '../../widgets/animations/circular_reveal_clipper.dart';
 import '../../widgets/shell/role_shell.dart';
@@ -143,6 +144,11 @@ GoRouter buildAppRouter({
           startup,
           AppRoutes.adminStaff,
           (_) => const StaffScreen(),
+        ),
+        _animatedRoute(
+          startup,
+          AppRoutes.profile,
+          (_) => const ProfileScreen(),
         ),
         _animatedRoute(startup, AppRoutes.adminDoctorSchedules, (state) {
           final doctorId = int.tryParse(state.pathParameters['doctorId'] ?? '');

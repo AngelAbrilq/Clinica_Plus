@@ -140,7 +140,7 @@ abstract final class AppModules {
       description: 'Datos personales y contraseña',
       icon: Icons.manage_accounts_outlined,
       roles: _allRoles,
-      status: ModuleStatus.comingSoon,
+      route: AppRoutes.profile,
     ),
   ];
 
