@@ -1,7 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../config/routes/app_routes.dart';
 import '../../models/patient_appointment.dart';
 import '../../providers/appointment_provider.dart';
 import '../../utils/check_in_code.dart';
@@ -189,6 +191,18 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                     delay: const Duration(milliseconds: 150),
                     child: _CheckInQrCard(code: appointment.checkInCode),
                   ),
+                // El día de la cita: acceso a la sala de espera en vivo.
+                if (appointment.isUpcoming(DateTime.now()) &&
+                    DateUtils.isSameDay(appointment.startsAt, DateTime.now())) ...[
+                  const SizedBox(height: 12),
+                  FilledButton.icon(
+                    onPressed: () => context.push(
+                      AppRoutes.patientWaitingRoomPath(appointment.id),
+                    ),
+                    icon: const Icon(Icons.groups_2_outlined),
+                    label: const Text('Ver sala de espera'),
+                  ),
+                ],
                 const SizedBox(height: 12),
                 if (provider.canCancel(appointment))
                   OutlinedButton.icon(

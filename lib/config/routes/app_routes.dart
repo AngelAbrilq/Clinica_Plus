@@ -14,6 +14,12 @@ abstract final class AppRoutes {
   static const String patientAppointmentDetail =
       '/patient/appointments/:appointmentId';
 
+  static const String patientWaitingRoom =
+      '/patient/appointments/:appointmentId/waiting';
+
+  static String patientWaitingRoomPath(int appointmentId) =>
+      '/patient/appointments/$appointmentId/waiting';
+
   static String patientAppointmentDetailPath(
     int appointmentId, {
     bool isNew = false,

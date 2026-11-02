@@ -23,6 +23,7 @@ import '../../screens/patient/book_appointment_screen.dart';
 import '../../screens/patient/medical_records_screen.dart';
 import '../../screens/patient/my_appointments_screen.dart';
 import '../../screens/patient/patient_home_screen.dart';
+import '../../screens/patient/waiting_room_screen.dart';
 import '../../screens/receptionist/check_in_scanner_screen.dart';
 import '../../screens/receptionist/reception_agenda_screen.dart';
 import '../../screens/receptionist/receptionist_home_screen.dart';
@@ -86,6 +87,14 @@ GoRouter buildAppRouter({
           AppRoutes.patientAppointments,
           (_) => const MyAppointmentsScreen(),
         ),
+        _animatedRoute(startup, AppRoutes.patientWaitingRoom, (state) {
+          final appointmentId = int.tryParse(
+            state.pathParameters['appointmentId'] ?? '',
+          );
+          return appointmentId == null
+              ? const MyAppointmentsScreen()
+              : WaitingRoomScreen(appointmentId: appointmentId);
+        }),
         _animatedRoute(startup, AppRoutes.patientAppointmentDetail, (state) {
           final appointmentId = int.tryParse(
             state.pathParameters['appointmentId'] ?? '',

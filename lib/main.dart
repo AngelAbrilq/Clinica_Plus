@@ -23,6 +23,7 @@ import 'data/repositories/supabase_insights_repository.dart';
 import 'data/repositories/supabase_patient_directory_repository.dart';
 import 'data/repositories/supabase_doctor_repository.dart';
 import 'data/repositories/supabase_reception_repository.dart';
+import 'data/repositories/supabase_waiting_room_repository.dart';
 import 'providers/admin_provider.dart';
 import 'providers/app_startup_notifier.dart';
 import 'providers/appointment_provider.dart';
@@ -33,6 +34,7 @@ import 'providers/doctor_patients_provider.dart';
 import 'providers/doctor_provider.dart';
 import 'providers/metrics_provider.dart';
 import 'providers/reception_provider.dart';
+import 'providers/waiting_room_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,6 +106,11 @@ class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
       ChangeNotifierProvider<AppointmentProvider>(
         create: (_) => AppointmentProvider(
           SupabaseAppointmentRepository(Supabase.instance.client),
+        ),
+      ),
+      ChangeNotifierProvider<WaitingRoomProvider>(
+        create: (_) => WaitingRoomProvider(
+          SupabaseWaitingRoomRepository(Supabase.instance.client),
         ),
       ),
       ChangeNotifierProvider<ReceptionProvider>(
