@@ -183,11 +183,11 @@ void main() {
     });
   });
 
-  test('médico tiene Inicio + Agenda en la navegación', () {
+  test('médico tiene Inicio + Agenda + Pacientes en la navegación', () {
     expect(
       AppModules.navigationFor(UserRole.doctor)
           .map((module) => module.navigationLabel),
-      ['Agenda'],
+      ['Agenda', 'Pacientes'],
     );
   });
 }

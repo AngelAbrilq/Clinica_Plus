@@ -20,6 +20,7 @@ import 'data/repositories/supabase_appointment_repository.dart';
 import 'data/repositories/supabase_auth_repository.dart';
 import 'data/repositories/supabase_catalog_admin_repository.dart';
 import 'data/repositories/supabase_insights_repository.dart';
+import 'data/repositories/supabase_patient_directory_repository.dart';
 import 'data/repositories/supabase_doctor_repository.dart';
 import 'data/repositories/supabase_reception_repository.dart';
 import 'providers/admin_provider.dart';
@@ -28,6 +29,7 @@ import 'providers/appointment_provider.dart';
 import 'providers/audit_provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/catalog_admin_provider.dart';
+import 'providers/doctor_patients_provider.dart';
 import 'providers/doctor_provider.dart';
 import 'providers/metrics_provider.dart';
 import 'providers/reception_provider.dart';
@@ -118,6 +120,11 @@ class _ClinicaPlusAppState extends State<ClinicaPlusApp> {
       ChangeNotifierProvider<DoctorProvider>(
         create: (_) =>
             DoctorProvider(SupabaseDoctorRepository(Supabase.instance.client)),
+      ),
+      ChangeNotifierProvider<DoctorPatientsProvider>(
+        create: (_) => DoctorPatientsProvider(
+          SupabasePatientDirectoryRepository(Supabase.instance.client),
+        ),
       ),
       ChangeNotifierProvider<MedicalRecordsProvider>(
         create: (_) => MedicalRecordsProvider(

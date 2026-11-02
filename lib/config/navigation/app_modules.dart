@@ -72,8 +72,10 @@ abstract final class AppModules {
       title: 'Mis pacientes',
       description: 'Buscar pacientes atendidos y su historia',
       icon: Icons.people_outline_rounded,
+      selectedIcon: Icons.people_rounded,
       roles: {UserRole.doctor},
-      status: ModuleStatus.comingSoon,
+      route: AppRoutes.doctorPatients,
+      navigationLabel: 'Pacientes',
     ),
 
     // ---------------- Recepción ----------------

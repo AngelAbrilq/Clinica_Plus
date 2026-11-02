@@ -20,6 +20,10 @@ abstract final class AppRoutes {
   }) => '/patient/appointments/$appointmentId${isNew ? '?new=1' : ''}';
   static const String doctorHome = '/doctor';
   static const String doctorAgenda = '/doctor/agenda';
+  static const String doctorPatients = '/doctor/patients';
+  static const String doctorPatientChart = '/doctor/patients/:patientId';
+
+  static String doctorPatientChartPath(String patientId) => '/doctor/patients/$patientId';
   static const String doctorConsultation =
       '/doctor/consultation/:appointmentId';
 
